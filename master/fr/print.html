@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "searchindex-b69cdd37.js";
+            window.path_to_searchindex_js = "searchindex-b614707c.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a643e72b.js"></script>
@@ -6937,7 +6937,7 @@ model                  = "gpt-5-codex"
 wire_api               = "responses"
 requires_openai_auth   = true
 </code></pre>
-<p>L’authentification d’abonnement OpenAI Codex réside dans l’emplacement <code>openai</code>. Définissez <code>wire_api = "responses"</code> pour acheminer via <code>POST /v1/responses</code> et <code>requires_openai_auth = true</code> pour récupérer les identifiants depuis <code>OPENAI_API_KEY</code> / <code>~/.codex/auth.json</code> au lieu d’un champ <code>api_key</code> dans l’entrée.</p>
+<p>OpenAI Codex subscription auth lives on the <code>openai</code> slot. Set <code>wire_api = "responses"</code> to route through <code>POST /v1/responses</code> and <code>requires_openai_auth = true</code> to pull credentials from the OAuth profile imported from <code>~/.codex/auth.json</code> instead of an <code>api_key</code> field on the entry. The subscription path does not read <code>OPENAI_API_KEY</code> — that variable applies only to the metered <code>openai</code> API-key mode.</p>
 <h3 id="ollama--emplacement-ollama"><a class="header" href="#ollama--emplacement-ollama">Ollama — emplacement <code>ollama</code></a></h3>
 <pre><code class="language-toml">[providers.models.ollama.local]
 uri              = "http://localhost:11434"
@@ -7299,6 +7299,8 @@ impl ModelEndpoint for MyProviderEndpoint {
 <li>Pare-feu, proxy, règles de sortie ? Les fournisseurs de VPS bloquent parfois les ports élevés sortants.</li>
 <li>Page d’état du fournisseur s’il s’agit d’un service hébergé.</li>
 </ul>
+<h3 id="gateway-rejects-temperature"><a class="header" href="#gateway-rejects-temperature">Gateway rejects <code>temperature</code></a></h3>
+<p>Some gateways (e.g. a LiteLLM proxy fronting <code>claude-opus-4-7</code>) return an error when a <code>temperature</code> field is present at all. ZeroClaw honors the <code>Option</code> contract: if you leave <code>temperature</code> unset in config, the field is <strong>omitted</strong> from the request body entirely and the backend picks its own default. Only set <code>temperature</code> explicitly when the endpoint accepts it.</p>
 <h2 id="voir-aussi-5"><a class="header" href="#voir-aussi-5">Voir aussi</a></h2>
 <ul>
 <li><a href="#fournisseurs-de-modèles--vue-densemble">Vue d’ensemble</a> — modèle de fournisseur et fonctionnement de la répartition par agent</li>
