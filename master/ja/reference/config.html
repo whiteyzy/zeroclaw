@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-950f49b3.js";
+            window.path_to_searchindex_js = "../searchindex-0cea0c42.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-c98164c8.js"></script>
@@ -503,7 +503,7 @@
 </div>
 <h2 id="codex_cli"><a class="header" href="#codex_cli"><code>codex_cli</code></a></h2>
 <p>Codex CLIツール設定 (<code>[codex_cli]</code> セクション)。</p>
-<p><code>codex -q</code> CLIにコーディングタスクを委譲します。認証はバイナリ独自のセッションを使用します — <code>env_passthrough</code>に<code>OPENAI_API_KEY</code>が含まれない限り、APIキーは不要です。</p>
+<p>Delegates coding tasks to the <code>codex exec</code> CLI. Authentication uses the binary’s own session by default — no API key needed unless <code>env_passthrough</code> includes <code>OPENAI_API_KEY</code>.</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -512,6 +512,7 @@
 <tbody>
 <tr><td><code>enabled</code></td><td>ブール値</td><td><code>false</code></td><td><code>codex_cli</code>ツールを有効化</td></tr>
 <tr><td><code>env_passthrough</code></td><td>string[]</td><td><code>[]</code></td><td>codexサブプロセスに渡される追加の環境変数（例：OPENAI_API_KEY）</td></tr>
+<tr><td><code>extra_args</code></td><td>string[]</td><td><code>[]</code></td><td>Extra CLI arguments appended to <code>codex exec</code> before the prompt.</td></tr>
 <tr><td><code>max_output_bytes</code></td><td>整数</td><td><code>2097152</code></td><td>最大出力サイズ(バイト単位、デフォルト:2MB)</td></tr>
 <tr><td><code>timeout_secs</code></td><td>整数</td><td><code>600</code></td><td>最大実行時間(秒単位、コーディングタスクは長時間になる場合があります)</td></tr>
 </tbody>

@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-37832304.js";
+            window.path_to_searchindex_js = "../searchindex-a0015fe5.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-0fc3b529.js"></script>
@@ -503,7 +503,7 @@
 </div>
 <h2 id="codex_cli"><a class="header" href="#codex_cli"><code>codex_cli</code></a></h2>
 <p>Codex CLI 工具配置（<code>[codex_cli]</code> 部分）。</p>
-<p>将编码任务委托给 <code>codex -q</code> CLI。默认情况下，身份验证使用二进制文件自身的会话——除非 <code>env_passthrough</code> 包含 <code>OPENAI_API_KEY</code>，否则无需 API 密钥。</p>
+<p>Delegates coding tasks to the <code>codex exec</code> CLI. Authentication uses the binary’s own session by default — no API key needed unless <code>env_passthrough</code> includes <code>OPENAI_API_KEY</code>.</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -512,6 +512,7 @@
 <tbody>
 <tr><td><code>enabled</code></td><td>布尔</td><td><code>false</code></td><td>启用 <code>codex_cli</code> 工具</td></tr>
 <tr><td><code>env_passthrough</code></td><td>字符串数组</td><td><code>[]</code></td><td>传递给 codex 子进程的其他环境变量（例如 OPENAI_API_KEY）</td></tr>
+<tr><td><code>extra_args</code></td><td>字符串数组</td><td><code>[]</code></td><td>Extra CLI arguments appended to <code>codex exec</code> before the prompt.</td></tr>
 <tr><td><code>max_output_bytes</code></td><td>整数</td><td><code>2097152</code></td><td>最大输出大小（以字节为单位，默认值为 2MB）</td></tr>
 <tr><td><code>timeout_secs</code></td><td>整数</td><td><code>600</code></td><td>最大执行时间（秒）（编码任务可能耗时较长）</td></tr>
 </tbody>

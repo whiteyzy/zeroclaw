@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "searchindex-b513f654.js";
+            window.path_to_searchindex_js = "searchindex-8d2d756b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-acb59c9f.js"></script>
@@ -4647,7 +4647,7 @@ IaC review, migration assessment, cost analysis, and architecture review.</p>
 </div>
 <h2 id="codex_cli"><a class="header" href="#codex_cli"><code>codex_cli</code></a></h2>
 <p>Codex CLI tool configuration (<code>[codex_cli]</code> section).</p>
-<p>Delegates coding tasks to the <code>codex -q</code> CLI. Authentication uses the
+<p>Delegates coding tasks to the <code>codex exec</code> CLI. Authentication uses the
 binary’s own session by default — no API key needed unless
 <code>env_passthrough</code> includes <code>OPENAI_API_KEY</code>.</p>
 <div class="table-wrapper">
@@ -4658,6 +4658,7 @@ binary’s own session by default — no API key needed unless
 <tbody>
 <tr><td><code>enabled</code></td><td>bool</td><td><code>false</code></td><td>Enable the <code>codex_cli</code> tool</td></tr>
 <tr><td><code>env_passthrough</code></td><td>string[]</td><td><code>[]</code></td><td>Extra env vars passed to the codex subprocess (e.g. OPENAI_API_KEY)</td></tr>
+<tr><td><code>extra_args</code></td><td>string[]</td><td><code>[]</code></td><td>Extra CLI arguments appended to <code>codex exec</code> before the prompt.</td></tr>
 <tr><td><code>max_output_bytes</code></td><td>integer</td><td><code>2097152</code></td><td>Maximum output size in bytes (2MB default)</td></tr>
 <tr><td><code>timeout_secs</code></td><td>integer</td><td><code>600</code></td><td>Maximum execution time in seconds (coding tasks can be long)</td></tr>
 </tbody>
