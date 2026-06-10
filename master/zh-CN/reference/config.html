@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-c212b8b0.js";
+            window.path_to_searchindex_js = "../searchindex-db042770.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-0fc3b529.js"></script>
@@ -948,6 +948,7 @@
 <tr><td><code>allowed_private_hosts</code></td><td>字符串数组</td><td><code>[]</code></td><td>Private/internal hosts explicitly allowed to bypass SSRF protection.</td></tr>
 <tr><td><code>enabled</code></td><td>布尔</td><td><code>false</code></td><td>启用 <code>http_request</code> 工具以进行 API 交互</td></tr>
 <tr><td><code>max_response_size</code></td><td>整数</td><td><code>1000000</code></td><td>最大响应大小（以字节为单位）（默认值：1MB，0 = 无限制）</td></tr>
+<tr><td><code>secrets</code> 🔑</td><td>映射</td><td><code>{}</code></td><td>Named authorization secrets for <code>auth_secret</code> requests.</td></tr>
 <tr><td><code>timeout_secs</code></td><td>整数</td><td><code>30</code></td><td>请求超时时间（秒，默认值：30）</td></tr>
 </tbody>
 </table>

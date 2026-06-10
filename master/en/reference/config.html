@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-966a2885.js";
+            window.path_to_searchindex_js = "../searchindex-b5b8984b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-acb59c9f.js"></script>
@@ -1002,6 +1002,7 @@ requests are rejected.</p>
 <tr><td><code>allowed_private_hosts</code></td><td>string[]</td><td><code>[]</code></td><td>Private/internal hosts explicitly allowed to bypass SSRF protection.</td></tr>
 <tr><td><code>enabled</code></td><td>bool</td><td><code>false</code></td><td>Enable <code>http_request</code> tool for API interactions</td></tr>
 <tr><td><code>max_response_size</code></td><td>integer</td><td><code>1000000</code></td><td>Maximum response size in bytes (default: 1MB, 0 = unlimited)</td></tr>
+<tr><td><code>secrets</code> 🔑</td><td>map</td><td><code>{}</code></td><td>Named authorization secrets for <code>auth_secret</code> requests.</td></tr>
 <tr><td><code>timeout_secs</code></td><td>integer</td><td><code>30</code></td><td>Request timeout in seconds (default: 30)</td></tr>
 </tbody>
 </table>

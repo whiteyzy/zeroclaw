@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-966a2885.js";
+            window.path_to_searchindex_js = "../searchindex-b5b8984b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-acb59c9f.js"></script>
@@ -431,6 +431,7 @@ cargo mdbook sync --model-provider anthropic.&lt;alias&gt; --config-dir ~/.zeroc
 <p>The pipeline has built-in resilience:</p>
 <ul>
 <li><strong>Leak detection</strong> — if a model returns its own instructions instead of a translation, the tool detects the pattern (via response-length ratio and bullet-list structure), attempts to recover the real translation from the response tail, and blanks the entry for re-translation if recovery fails.</li>
+<li><strong>Protected literal checks</strong> — <code>cargo mdbook check</code> also rejects high-confidence literal corruption in generated <code>.po</code> files. Product names such as <code>ZeroClaw Maturity Framework</code>, command literals such as <code>zeroclaw daemon</code>, and fenced TOML section/key literals must stay byte-for-byte intact inside translations. Translate the surrounding prose, not the machine-facing text.</li>
 <li><strong>Incremental writes</strong> — after each batch, the <code>.po</code> file is rewritten. A Ctrl-C mid-run doesn’t lose the progress up to that point.</li>
 <li><strong>Obsolete stripping</strong> — <code>msgmerge</code> + <code>msgattrib --no-obsolete</code> keep removed source strings from accumulating as <code>#~</code> entries.</li>
 </ul>

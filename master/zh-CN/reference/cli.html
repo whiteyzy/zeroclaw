@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-c212b8b0.js";
+            window.path_to_searchindex_js = "../searchindex-db042770.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-0fc3b529.js"></script>
@@ -248,7 +248,7 @@
 <li><a href="#zeroclaw-gateway-restart"><code>zeroclaw gateway restart</code>↴</a></li>
 <li><a href="#zeroclaw-gateway-get-paircode"><code>zeroclaw gateway get-paircode</code>↴</a></li>
 <li><a href="#zeroclaw-acp"><code>zeroclaw acp</code>↴</a></li>
-<li><a href="#zeroclaw-daemon"><code>zeroclaw 守护进程</code>↴</a></li>
+<li><a href="#zeroclaw-daemon"><code>zeroclaw daemon</code>↴</a></li>
 <li><a href="#zeroclaw-service"><code>zeroclaw service</code>↴</a></li>
 <li><a href="#zeroclaw-service-install"><code>zeroclaw service install</code>↴</a></li>
 <li><a href="#zeroclaw-service-start"><code>zeroclaw service start</code>↴</a></li>
@@ -568,7 +568,7 @@
 <li><code>--max-sessions &lt;MAX_SESSIONS&gt;</code> — 最大并发会话数（默认值：10）</li>
 <li><code>--session-timeout &lt;SESSION_TIMEOUT&gt;</code> — 会话不活动超时时间（秒）（默认值：3600）</li>
 </ul>
-<h2 id="zeroclaw-守护进程"><a class="header" href="#zeroclaw-守护进程"><code>zeroclaw 守护进程</code></a></h2>
+<h2 id="zeroclaw-daemon"><a class="header" href="#zeroclaw-daemon"><code>zeroclaw daemon</code></a></h2>
 <p>启动长期运行的自主守护进程。</p>
 <p>启动完整的 ZeroClaw 运行时：包括网关服务器、所有已配置的频道（Telegram、Discord、Slack 等）、心跳监控器和定时任务调度器。这是在生产环境或作为常驻助手运行 ZeroClaw 的推荐方式。</p>
 <p>使用 <code>zeroclaw service install</code> 将守护进程注册为操作系统服务（systemd/launchd），以便在启动时自动运行。</p>

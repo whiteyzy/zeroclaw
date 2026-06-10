@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-4a422334.js";
+            window.path_to_searchindex_js = "../searchindex-ac6533a4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-a643e72b.js"></script>
@@ -431,6 +431,7 @@ cargo mdbook sync --model-provider anthropic.&lt;alias&gt; --config-dir ~/.zeroc
 <p>Le pipeline possède une résilience intégrée :</p>
 <ul>
 <li><strong>Détection de fuites</strong> — si un modèle renvoie ses propres instructions au lieu d’une traduction, l’outil détecte le motif (via le ratio de longueur de la réponse et la structure en liste à puces), tente de récupérer la véritable traduction à partir de la fin de la réponse, et efface l’entrée pour une nouvelle traduction si la récupération échoue.</li>
+<li><strong>Protected literal checks</strong> — <code>cargo mdbook check</code> also rejects high-confidence literal corruption in generated <code>.po</code> files. Product names such as <code>ZeroClaw Maturity Framework</code>, command literals such as <code>zeroclaw daemon</code>, and fenced TOML section/key literals must stay byte-for-byte intact inside translations. Translate the surrounding prose, not the machine-facing text.</li>
 <li><strong>Écritures incrémentales</strong> — après chaque lot, le fichier <code>.po</code> est réécrit. Un Ctrl-C en cours d’exécution ne perd pas les progrès accomplis jusqu’à ce point.</li>
 <li><strong>Dépréciation du nettoyage</strong> — <code>msgmerge</code> + <code>msgattrib --no-obsolete</code> empêchent l’accumulation des chaînes de source supprimées en tant qu’entrées <code>#~</code>.</li>
 </ul>

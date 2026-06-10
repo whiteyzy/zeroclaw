@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-c212b8b0.js";
+            window.path_to_searchindex_js = "../searchindex-db042770.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-0fc3b529.js"></script>
@@ -431,6 +431,7 @@ cargo mdbook sync --model-provider anthropic.&lt;alias&gt; --config-dir ~/.zeroc
 <p>该流水线具有内置的弹性：</p>
 <ul>
 <li><strong>泄漏检测</strong> — 如果模型返回的是其自身的指令而非翻译内容，该工具会通过响应长度比例和列表结构来检测这一模式，并尝试从响应的末尾恢复出正确的翻译内容；若恢复失败，则将该条目清空以便重新翻译。</li>
+<li><strong>Protected literal checks</strong> — <code>cargo mdbook check</code> also rejects high-confidence literal corruption in generated <code>.po</code> files. Product names such as <code>ZeroClaw Maturity Framework</code>, command literals such as <code>zeroclaw daemon</code>, and fenced TOML section/key literals must stay byte-for-byte intact inside translations. Translate the surrounding prose, not the machine-facing text.</li>
 <li><strong>增量写入</strong> — 每个批次完成后，<code>.po</code> 文件会被重新写入。如果在运行过程中按 Ctrl-C 中断，不会丢失截至该点的进度。</li>
 <li><strong>过时的剥离</strong> — <code>msgmerge</code> + <code>msgattrib --no-obsolete</code> 可防止已移除的源字符串作为 <code>#~</code> 条目不断累积。</li>
 </ul>

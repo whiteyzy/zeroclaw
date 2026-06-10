@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "searchindex-69577386.js";
+            window.path_to_searchindex_js = "searchindex-fa466356.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-c98164c8.js"></script>
@@ -4811,6 +4811,7 @@ zeroclaw daemon
 <tr><td><code>allowed_private_hosts</code></td><td>string[]</td><td><code>[]</code></td><td>Private/internal hosts explicitly allowed to bypass SSRF protection.</td></tr>
 <tr><td><code>enabled</code></td><td>ブール値</td><td><code>false</code></td><td>APIインタラクション用の <code>http_request</code> ツールを有効化</td></tr>
 <tr><td><code>max_response_size</code></td><td>整数</td><td><code>1000000</code></td><td>最大応答サイズ（バイト単位）（デフォルト: 1MB、0 = 無制限）</td></tr>
+<tr><td><code>secrets</code> 🔑</td><td>map</td><td><code>{}</code></td><td>Named authorization secrets for <code>auth_secret</code> requests.</td></tr>
 <tr><td><code>timeout_secs</code></td><td>整数</td><td><code>30</code></td><td>リクエストタイムアウト（秒単位）（デフォルト: 30）</td></tr>
 </tbody>
 </table>
@@ -13212,7 +13213,7 @@ cargo build --release --features gateway
 <li>Safari 16.2+</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="zeroclaw成熟度フレームワーク"><a class="header" href="#zeroclaw成熟度フレームワーク">ZeroClaw成熟度フレームワーク</a></h1>
+<h1 id="zeroclaw-maturity-framework"><a class="header" href="#zeroclaw-maturity-framework">ZeroClaw Maturity Framework</a></h1>
 <p><em>これを見つけた人へ。</em></p>
 <hr>
 <p>これをお読みいただいているということは、あなたはこのチームが心から誇りに思っているフォルダに辿り着いたことになります。ここにあるドキュメントが完璧だからではなく、正直であるからこそです。</p>
@@ -13251,7 +13252,7 @@ cargo build --release --features gateway
 <p>これらのドキュメントがあなたに育もうとしている判断は、変わっておらず、これからも変わりません。それらが問いかけていること――これが失敗したときにどうすべきか、このインターフェースは何を保証するのか、私のテストは実際に何を証明するのか、この問題を引き継ぐ人が何を知る必要があるのか――は、Rust の質問でもソフトウェアの質問でもありません。それらは、他の人が信頼できるものを構築する方法に関する質問です。これらの質問は、あなたが携わるあらゆる言語、システム、分野で同じです。それらを問い続ける限り、静かに、背景で積み重なります。</p>
 <p>これは、このシリーズがあなたに対して行う投資です。チームへようこそ。</p>
 <hr>
-<p>ZeroClaw成熟度フレームワークは、継続的に更新される文書群です。チームが保存に値する知見を得た際、新しい文書が追加されます。各文書は公開されたRFCの議論として始まり、上記の6つの文書と同じプロセスを経てここに掲載されます。それは、オープンな対話、率直な意見の相違、そしてチームがそれを継続して発展させるという集団的な判断によって成り立っています。</p>
+<p>ZeroClaw Maturity Frameworkは、継続的に更新される文書群です。チームが保存に値する知見を得た際、新しい文書が追加されます。各文書は公開されたRFCの議論として始まり、上記の6つの文書と同じプロセスを経てここに掲載されます。それは、オープンな対話、率直な意見の相違、そしてチームがそれを継続して発展させるという集団的な判断によって成り立っています。</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="fnd-001-意図的なアーキテクチャ--zeroclaw-マイクロカーネル移行"><a class="header" href="#fnd-001-意図的なアーキテクチャ--zeroclaw-マイクロカーネル移行">FND-001: 意図的なアーキテクチャ — ZeroClaw マイクロカーネル移行</a></h1>
 <h3 id="v070-以降--タイプ-アーキテクチャ--rev-3"><a class="header" href="#v070-以降--タイプ-アーキテクチャ--rev-3">v0.7.0 以降 · タイプ: アーキテクチャ · Rev. 3</a></h3>
@@ -17766,6 +17767,7 @@ cargo mdbook sync --model-provider anthropic.&lt;alias&gt; --config-dir ~/.zeroc
 <p>パイプラインには組み込みの耐障害性があります：</p>
 <ul>
 <li><strong>リーク検出</strong> — モデルが翻訳の代わりに自身の指示を返した場合、ツールはパターンを検出（応答の長さの比率と箇条書き構造により）、応答の末尾から実際の翻訳を復元しようと試み、復元が失敗した場合は再翻訳のために該当エントリを空白にします。</li>
+<li><strong>Protected literal checks</strong> — <code>cargo mdbook check</code> also rejects high-confidence literal corruption in generated <code>.po</code> files. Product names such as <code>ZeroClaw Maturity Framework</code>, command literals such as <code>zeroclaw daemon</code>, and fenced TOML section/key literals must stay byte-for-byte intact inside translations. Translate the surrounding prose, not the machine-facing text.</li>
 <li><strong>インクリメンタルな書き込み</strong> — 各バッチの後に <code>.po</code> ファイルが再書き込みされます。実行中に Ctrl-C を押しても、その時点までの進捗は失われません。</li>
 <li><strong>非推奨のストリッピング</strong> — <code>msgmerge</code> + <code>msgattrib --no-obsolete</code> は、削除されたソース文字列が <code>#~</code> エントリとして蓄積するのを防ぎます。</li>
 </ul>

@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "searchindex-4a422334.js";
+            window.path_to_searchindex_js = "searchindex-ac6533a4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a643e72b.js"></script>
@@ -551,7 +551,7 @@ provider_backoff_ms = 500        # initial backoff; doubles per retry
 <p>Les valeurs par défaut sont de 2 tentatives, avec un backoff initial de 500 ms. Il s’agit de tentatives au sein d’un même fournisseur.</p>
 <h2 id="rotation-de-la-clé-api"><a class="header" href="#rotation-de-la-clé-api">Rotation de la clé API</a></h2>
 <p>Pour les fournisseurs qui rencontrent fréquemment des limites de débit, fournissez des clés API supplémentaires que ZeroClaw utilisera en rotation lors des réponses <code>429</code> :</p>
-<pre><code class="language-toml">[rélationnabilité]
+<pre><code class="language-toml">[reliability]
 api_keys = ["sk-key-2", "sk-key-3", "sk-key-4"]
 </code></pre>
 <p>La clé <code>api_key</code> principale (configurée dans l’entrée du fournisseur) est toujours essayée en premier ; ces clés supplémentaires sont alternées en cas d’erreurs de limitation de débit. Toutes les clés doivent appartenir à la même classe de compte fournisseur — il s’agit d’un lissage de la limitation de débit, et non d’une jonglerie de clés multi-locataires.</p>
@@ -4811,6 +4811,7 @@ zeroclaw daemon
 <tr><td><code>hôtes privés autorisés</code></td><td>string[]</td><td><code>[]</code></td><td>Private/internal hosts explicitly allowed to bypass SSRF protection.</td></tr>
 <tr><td><code>activé</code></td><td>bool</td><td><code>false</code></td><td>Activer l’outil <code>http_request</code> pour les interactions API</td></tr>
 <tr><td><code>max_response_size</code></td><td>entier</td><td><code>1000000</code></td><td>Taille maximale de la réponse en octets (par défaut : 1 Mo, 0 = illimité)</td></tr>
+<tr><td><code>secrets</code> 🔑</td><td>carte</td><td><code>{}</code></td><td>Named authorization secrets for <code>auth_secret</code> requests.</td></tr>
 <tr><td><code>timeout_secs</code></td><td>entier</td><td><code>30</code></td><td>Délai d’expiration de la requête en secondes (par défaut : 30)</td></tr>
 </tbody>
 </table>
@@ -6792,7 +6793,7 @@ show_reasoning = true
 <p>Désactiver complètement le raisonnement sur un modèle capable de raisonnement :</p>
 <pre><code class="language-toml">[providers.models.&lt;name&gt;]
 think = false
-effort_raisonnement = "aucun"
+reasoning_effort = "none"
 </code></pre>
 <p>Les deux champs sont de niveau supérieur ; le nom à utiliser dépend du fournisseur/point de terminaison. La définition des deux couvre Ollama natif, la compatibilité OpenAI d’Ollama, et les API amont qui prennent en charge <code>reasoning_effort</code>.</p>
 <h2 id="appels-doutils-en-cours-de-route"><a class="header" href="#appels-doutils-en-cours-de-route">Appels d’outils en cours de route</a></h2>
@@ -13210,7 +13211,7 @@ cargo build --release --features gateway
 <li>Safari 16.2+</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="le-cadre-de-maturité-zeroclaw"><a class="header" href="#le-cadre-de-maturité-zeroclaw">Le cadre de maturité ZeroClaw</a></h1>
+<h1 id="le-zeroclaw-maturity-framework"><a class="header" href="#le-zeroclaw-maturity-framework">Le ZeroClaw Maturity Framework</a></h1>
 <p><em>Une lettre à quiconque trouvera ceci.</em></p>
 <hr>
 <p>Si vous lisez ceci, vous avez trouvé un dossier qui représente quelque chose dont cette équipe est vraiment fière — non pas parce que les documents qui s’y trouvent sont parfaits, mais parce qu’ils sont honnêtes.</p>
@@ -13249,7 +13250,7 @@ cargo build --release --features gateway
 <p>Le jugement que ces documents cherchent à développer en vous n’a pas changé et ne changera pas. Les questions qu’elles posent — que faire en cas d’échec, que promet cette interface, ce que votre test prouve réellement, ce que la personne qui hérite de ce problème doit savoir — ne sont pas des questions propres à Rust ou au logiciel. Ce sont des questions sur la manière de construire des choses en lesquelles les autres peuvent avoir confiance. Ces questions sont les mêmes dans chaque langage, chaque système et chaque discipline dans lesquels vous travaillerez. Elles s’accumulent discrètement, en arrière-plan, aussi longtemps que vous vous entraînez à les poser.</p>
 <p>C’est l’investissement que cette série fait en vous. Bienvenue dans l’équipe.</p>
 <hr>
-<p><em>Le cadre de maturité ZeroClaw est un ensemble de travaux évolutif. De nouveaux documents sont ajoutés lorsque l’équipe a appris quelque chose qui vaut la peine d’être préservé. Chacun commence par une discussion publique au format RFC et gagne sa place ici grâce au même processus que les six précédents : une conversation ouverte, des désaccords honnêtes et la décision collective de l’équipe de le faire avancer.</em></p>
+<p><em>Le ZeroClaw Maturity Framework est un ensemble de travaux évolutif. De nouveaux documents sont ajoutés lorsque l’équipe a appris quelque chose qui vaut la peine d’être préservé. Chacun commence par une discussion publique au format RFC et gagne sa place ici grâce au même processus que les six précédents : une conversation ouverte, des désaccords honnêtes et la décision collective de l’équipe de le faire avancer.</em></p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="fnd-001--architecture-intentionnelle--transition-vers-le-microkernel-zeroclaw"><a class="header" href="#fnd-001--architecture-intentionnelle--transition-vers-le-microkernel-zeroclaw">FND-001 : Architecture intentionnelle — Transition vers le microkernel ZeroClaw</a></h1>
 <h3 id="à-partir-de-la-version-070--type--architecture--rév-3"><a class="header" href="#à-partir-de-la-version-070--type--architecture--rév-3">À partir de la version 0.7.0 · Type : Architecture · Rév. 3</a></h3>
@@ -17750,6 +17751,7 @@ cargo mdbook sync --model-provider anthropic.&lt;alias&gt; --config-dir ~/.zeroc
 <p>Le pipeline possède une résilience intégrée :</p>
 <ul>
 <li><strong>Détection de fuites</strong> — si un modèle renvoie ses propres instructions au lieu d’une traduction, l’outil détecte le motif (via le ratio de longueur de la réponse et la structure en liste à puces), tente de récupérer la véritable traduction à partir de la fin de la réponse, et efface l’entrée pour une nouvelle traduction si la récupération échoue.</li>
+<li><strong>Protected literal checks</strong> — <code>cargo mdbook check</code> also rejects high-confidence literal corruption in generated <code>.po</code> files. Product names such as <code>ZeroClaw Maturity Framework</code>, command literals such as <code>zeroclaw daemon</code>, and fenced TOML section/key literals must stay byte-for-byte intact inside translations. Translate the surrounding prose, not the machine-facing text.</li>
 <li><strong>Écritures incrémentales</strong> — après chaque lot, le fichier <code>.po</code> est réécrit. Un Ctrl-C en cours d’exécution ne perd pas les progrès accomplis jusqu’à ce point.</li>
 <li><strong>Dépréciation du nettoyage</strong> — <code>msgmerge</code> + <code>msgattrib --no-obsolete</code> empêchent l’accumulation des chaînes de source supprimées en tant qu’entrées <code>#~</code>.</li>
 </ul>

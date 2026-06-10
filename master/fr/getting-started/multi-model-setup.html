@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-4a422334.js";
+            window.path_to_searchindex_js = "../searchindex-ac6533a4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-a643e72b.js"></script>
@@ -320,7 +320,7 @@ provider_backoff_ms = 500        # initial backoff; doubles per retry
 <p>Les valeurs par défaut sont de 2 tentatives, avec un backoff initial de 500 ms. Il s’agit de tentatives au sein d’un même fournisseur.</p>
 <h2 id="rotation-de-la-clé-api"><a class="header" href="#rotation-de-la-clé-api">Rotation de la clé API</a></h2>
 <p>Pour les fournisseurs qui rencontrent fréquemment des limites de débit, fournissez des clés API supplémentaires que ZeroClaw utilisera en rotation lors des réponses <code>429</code> :</p>
-<pre><code class="language-toml">[rélationnabilité]
+<pre><code class="language-toml">[reliability]
 api_keys = ["sk-key-2", "sk-key-3", "sk-key-4"]
 </code></pre>
 <p>La clé <code>api_key</code> principale (configurée dans l’entrée du fournisseur) est toujours essayée en premier ; ces clés supplémentaires sont alternées en cas d’erreurs de limitation de débit. Toutes les clés doivent appartenir à la même classe de compte fournisseur — il s’agit d’un lissage de la limitation de débit, et non d’une jonglerie de clés multi-locataires.</p>

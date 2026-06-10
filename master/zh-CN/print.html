@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "searchindex-c212b8b0.js";
+            window.path_to_searchindex_js = "searchindex-db042770.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-0fc3b529.js"></script>
@@ -2772,7 +2772,7 @@ zeroclaw daemon
 <li><a href="#zeroclaw-gateway-restart"><code>zeroclaw gateway restart</code>↴</a></li>
 <li><a href="#zeroclaw-gateway-get-paircode"><code>zeroclaw gateway get-paircode</code>↴</a></li>
 <li><a href="#zeroclaw-acp"><code>zeroclaw acp</code>↴</a></li>
-<li><a href="#zeroclaw-daemon"><code>zeroclaw 守护进程</code>↴</a></li>
+<li><a href="#zeroclaw-daemon"><code>zeroclaw daemon</code>↴</a></li>
 <li><a href="#zeroclaw-service"><code>zeroclaw service</code>↴</a></li>
 <li><a href="#zeroclaw-service-install"><code>zeroclaw service install</code>↴</a></li>
 <li><a href="#zeroclaw-service-start"><code>zeroclaw service start</code>↴</a></li>
@@ -3092,7 +3092,7 @@ zeroclaw daemon
 <li><code>--max-sessions &lt;MAX_SESSIONS&gt;</code> — 最大并发会话数（默认值：10）</li>
 <li><code>--session-timeout &lt;SESSION_TIMEOUT&gt;</code> — 会话不活动超时时间（秒）（默认值：3600）</li>
 </ul>
-<h2 id="zeroclaw-守护进程"><a class="header" href="#zeroclaw-守护进程"><code>zeroclaw 守护进程</code></a></h2>
+<h2 id="zeroclaw-daemon"><a class="header" href="#zeroclaw-daemon"><code>zeroclaw daemon</code></a></h2>
 <p>启动长期运行的自主守护进程。</p>
 <p>启动完整的 ZeroClaw 运行时：包括网关服务器、所有已配置的频道（Telegram、Discord、Slack 等）、心跳监控器和定时任务调度器。这是在生产环境或作为常驻助手运行 ZeroClaw 的推荐方式。</p>
 <p>使用 <code>zeroclaw service install</code> 将守护进程注册为操作系统服务（systemd/launchd），以便在启动时自动运行。</p>
@@ -4811,6 +4811,7 @@ zeroclaw daemon
 <tr><td><code>allowed_private_hosts</code></td><td>字符串数组</td><td><code>[]</code></td><td>Private/internal hosts explicitly allowed to bypass SSRF protection.</td></tr>
 <tr><td><code>enabled</code></td><td>布尔</td><td><code>false</code></td><td>启用 <code>http_request</code> 工具以进行 API 交互</td></tr>
 <tr><td><code>max_response_size</code></td><td>整数</td><td><code>1000000</code></td><td>最大响应大小（以字节为单位）（默认值：1MB，0 = 无限制）</td></tr>
+<tr><td><code>secrets</code> 🔑</td><td>映射</td><td><code>{}</code></td><td>Named authorization secrets for <code>auth_secret</code> requests.</td></tr>
 <tr><td><code>timeout_secs</code></td><td>整数</td><td><code>30</code></td><td>请求超时时间（秒，默认值：30）</td></tr>
 </tbody>
 </table>
@@ -11297,7 +11298,7 @@ zeroclaw daemon --host 127.0.0.1 --port 42617
 <tr><td>6</td><td><code>export CARGO_BUILD_JOBS=1 &amp;&amp; cargo build --release --features hardware</code></td></tr>
 <tr><td>7</td><td><code>zeroclaw quickstart --api-key KEY --model-provider openrouter</code></td></tr>
 <tr><td>8</td><td><code>zeroclaw config set channels.telegram.default.bot-token &lt;token&gt;</code></td></tr>
-<tr><td>9</td><td><code>zeroclaw 守护进程 --host 127.0.0.1 --port 42617</code></td></tr>
+<tr><td>9</td><td><code>zeroclaw daemon --host 127.0.0.1 --port 42617</code></td></tr>
 <tr><td>10</td><td>向你的 Telegram 机器人发送消息——它会响应</td></tr>
 <tr><td>11</td><td><code>zeroclaw peripheral setup-uno-q</code>（部署 Bridge）</td></tr>
 <tr><td>12</td><td>将带有 <code>board = "arduino-uno-q"</code> 的 <code>[peripherals]</code> 块添加到 <code>config.toml</code></td></tr>
@@ -13134,7 +13135,7 @@ cargo build --release --features gateway
 <li>Safari 16.2+</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="零爪成熟度框架"><a class="header" href="#零爪成熟度框架">零爪成熟度框架</a></h1>
+<h1 id="zeroclaw-maturity-framework"><a class="header" href="#zeroclaw-maturity-framework">ZeroClaw Maturity Framework</a></h1>
 <p><em>致发现此信的人。</em></p>
 <hr>
 <p>如果你正在阅读这段文字，说明你已找到我们团队真正引以为豪的文件夹——并非因为这里的文档完美无缺，而是因为它们真实可信。</p>
@@ -13173,7 +13174,7 @@ cargo build --release --features gateway
 <p>这些文档试图在你心中建立的判断力并未改变，也不会改变。它们所提出的问题——当此操作失败时该怎么办？这个接口承诺了什么？我的测试究竟证明了什么？接手此问题的人需要知道什么？——这些并非 Rust 或软件工程领域特有的问题。它们关乎如何构建他人可以信赖的事物。这些问题在任何语言、任何系统以及你未来从事的任何领域中都是一样的。只要你持续提出这些问题，它们就会在后台悄然累积，伴随你的整个实践过程。</p>
 <p>这就是本系列对你所做的投资。欢迎加入团队。</p>
 <hr>
-<p>ZeroClaw 成熟度框架是一个持续演进的文档体系。当团队积累了值得保留的经验时，便会新增相关文档。每份文档最初都以公开 RFC 讨论的形式启动，并通过与上述六份文档相同的流程获得认可：开放对话、坦诚分歧，以及团队集体决定将其纳入并持续推进。</p>
+<p>ZeroClaw Maturity Framework 是一个持续演进的文档体系。当团队积累了值得保留的经验时，便会新增相关文档。每份文档最初都以公开 RFC 讨论的形式启动，并通过与上述六份文档相同的流程获得认可：开放对话、坦诚分歧，以及团队集体决定将其纳入并持续推进。</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="fnd-001有意架构--zeroclaw-微内核过渡"><a class="header" href="#fnd-001有意架构--zeroclaw-微内核过渡">FND-001：有意架构 — ZeroClaw 微内核过渡</a></h1>
 <h3 id="从-v070-开始--类型架构--修订版-3"><a class="header" href="#从-v070-开始--类型架构--修订版-3">从 v0.7.0 开始 · 类型：架构 · 修订版 3</a></h3>
@@ -17674,6 +17675,7 @@ cargo mdbook sync --model-provider anthropic.&lt;alias&gt; --config-dir ~/.zeroc
 <p>该流水线具有内置的弹性：</p>
 <ul>
 <li><strong>泄漏检测</strong> — 如果模型返回的是其自身的指令而非翻译内容，该工具会通过响应长度比例和列表结构来检测这一模式，并尝试从响应的末尾恢复出正确的翻译内容；若恢复失败，则将该条目清空以便重新翻译。</li>
+<li><strong>Protected literal checks</strong> — <code>cargo mdbook check</code> also rejects high-confidence literal corruption in generated <code>.po</code> files. Product names such as <code>ZeroClaw Maturity Framework</code>, command literals such as <code>zeroclaw daemon</code>, and fenced TOML section/key literals must stay byte-for-byte intact inside translations. Translate the surrounding prose, not the machine-facing text.</li>
 <li><strong>增量写入</strong> — 每个批次完成后，<code>.po</code> 文件会被重新写入。如果在运行过程中按 Ctrl-C 中断，不会丢失截至该点的进度。</li>
 <li><strong>过时的剥离</strong> — <code>msgmerge</code> + <code>msgattrib --no-obsolete</code> 可防止已移除的源字符串作为 <code>#~</code> 条目不断累积。</li>
 </ul>

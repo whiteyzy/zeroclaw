@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-69577386.js";
+            window.path_to_searchindex_js = "../searchindex-fa466356.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-c98164c8.js"></script>
@@ -431,6 +431,7 @@ cargo mdbook sync --model-provider anthropic.&lt;alias&gt; --config-dir ~/.zeroc
 <p>パイプラインには組み込みの耐障害性があります：</p>
 <ul>
 <li><strong>リーク検出</strong> — モデルが翻訳の代わりに自身の指示を返した場合、ツールはパターンを検出（応答の長さの比率と箇条書き構造により）、応答の末尾から実際の翻訳を復元しようと試み、復元が失敗した場合は再翻訳のために該当エントリを空白にします。</li>
+<li><strong>Protected literal checks</strong> — <code>cargo mdbook check</code> also rejects high-confidence literal corruption in generated <code>.po</code> files. Product names such as <code>ZeroClaw Maturity Framework</code>, command literals such as <code>zeroclaw daemon</code>, and fenced TOML section/key literals must stay byte-for-byte intact inside translations. Translate the surrounding prose, not the machine-facing text.</li>
 <li><strong>インクリメンタルな書き込み</strong> — 各バッチの後に <code>.po</code> ファイルが再書き込みされます。実行中に Ctrl-C を押しても、その時点までの進捗は失われません。</li>
 <li><strong>非推奨のストリッピング</strong> — <code>msgmerge</code> + <code>msgattrib --no-obsolete</code> は、削除されたソース文字列が <code>#~</code> エントリとして蓄積するのを防ぎます。</li>
 </ul>
