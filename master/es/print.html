@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "searchindex-7f0f8b7c.js";
+            window.path_to_searchindex_js = "searchindex-5f7771cc.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-2e5901bf.js"></script>
@@ -5408,6 +5408,7 @@ api_key = "..."
 <tr><td><code>hunyuan</code></td><td>mapa</td><td>—</td><td></td></tr>
 <tr><td><code>hyperbolic</code></td><td>mapa</td><td>—</td><td></td></tr>
 <tr><td><code>inception</code></td><td>mapa</td><td>—</td><td></td></tr>
+<tr><td><code>kilo</code></td><td>mapa</td><td>—</td><td></td></tr>
 <tr><td><code>kilocli</code></td><td>mapa</td><td>—</td><td></td></tr>
 <tr><td><code>lambda_ai</code></td><td>mapa</td><td>—</td><td></td></tr>
 <tr><td><code>lepton</code></td><td>mapa</td><td>—</td><td></td></tr>
@@ -6999,6 +7000,16 @@ api_key = "..."
 model = "..."
 </code></pre>
 <p>Inferencia local a través de KiloCLI.</p>
+<h3 id="kilo-ai-gateway--slot-kilo"><a class="header" href="#kilo-ai-gateway--slot-kilo">Kilo AI Gateway — slot <code>kilo</code></a></h3>
+<pre><code class="language-toml">[providers.models.kilo.home]
+model   = "anthropic/claude-sonnet-4-6"
+api_key = "..."
+# endpoint = "gateway"  # default → https://api.kilo.ai/api/gateway
+</code></pre>
+<p>Cloud API via Kilo AI Gateway. Bearer-token auth with multiple model tiers (free, balanced, pro). The <code>/models</code> endpoint is public (<code>PUBLIC_MODEL_LISTING</code>), so model listing works without a credential — and because it is queried live, it is the source that carries pricing into the cost-rates editor. The shared models.dev catalog (<code>kilo</code> key) is only a fallback for when the live endpoint is unreachable, and it does not include pricing.</p>
+<blockquote>
+<p><strong>Naming migration:</strong> <code>kilo</code> now refers to this gateway provider. The KiloCLI subprocess provider keeps its <code>kilocli</code> slot (synonym <code>kilo-cli</code>). If you previously configured the CLI provider under the <code>kilo</code> shorthand, switch to <code>kilocli</code>.</p>
+</blockquote>
 <hr>
 <h2 id="familias-compatibles-con-openai"><a class="header" href="#familias-compatibles-con-openai">Familias compatibles con OpenAI</a></h2>
 <p>Cada proveedor compatible con OpenAI tiene su propio slot canónico. No existe un selector genérico <code>kind = "openai-compatible"</code>: elige el slot que coincida con tu proveedor o usa <code>custom</code> para los endpoints que no figuren aquí.</p>
@@ -7026,6 +7037,7 @@ model = "..."
 <tr><td><code>arcee</code></td><td><code>https://api.arcee.ai/api/v1</code></td><td>Trinity / Conductor / Maestro — note the non-standard <code>/api/v1</code> path</td></tr>
 <tr><td><code>lambda_ai</code></td><td><code>https://api.lambda.ai/v1</code></td><td>Lambda hosted inference (alias <code>lambda-ai</code>)</td></tr>
 <tr><td><code>inception</code></td><td><code>https://api.inceptionlabs.ai/v1</code></td><td>Mercury diffusion LLM</td></tr>
+<tr><td><code>kilo</code></td><td><code>https://api.kilo.ai/api/gateway</code></td><td>Public <code>/models</code> endpoint (no credential required for catalog)</td></tr>
 <tr><td><code>lmstudio</code>, <code>llamacpp</code>, <code>sglang</code>, <code>vllm</code>, <code>osaurus</code>, <code>litellm</code></td><td><code>http://localhost:&lt;port&gt;/v1</code></td><td>Slots de servidor local con valores predeterminados razonables</td></tr>
 </tbody>
 </table>
