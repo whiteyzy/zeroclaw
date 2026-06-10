@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-331be6eb.js";
+            window.path_to_searchindex_js = "../searchindex-1c0d45ef.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-c98164c8.js"></script>
@@ -424,6 +424,7 @@
 <tr><td><code>linq</code></td><td>map</td><td>—</td><td>Linq Partner API チャネルインスタンス（<code>[channels.linq.&lt;alias&gt;]</code>）。</td></tr>
 <tr><td><code>matrix</code></td><td>map</td><td>—</td><td>Matrix チャンネルインスタンス (<code>[channels.matrix.&lt;alias&gt;]</code>)。</td></tr>
 <tr><td><code>mattermost</code></td><td>map</td><td>—</td><td>Mattermost ボットのチャンネルインスタンス（<code>[channels.mattermost.&lt;alias&gt;]</code>）。</td></tr>
+<tr><td><code>max_concurrent_per_channel</code></td><td>整数</td><td><code>4</code></td><td>Per-channel multiplier for the global channel message in-flight budget.</td></tr>
 <tr><td><code>message_timeout_secs</code></td><td>整数</td><td><code>300</code></td><td>単一チャネルメッセージ処理のベースタイムアウト（秒）(LLM + ツール)。</td></tr>
 <tr><td><code>mochat</code></td><td>map</td><td>—</td><td>Mochat カスタマーサービスチャネルインスタンス（<code>[channels.mochat.&lt;alias&gt;]</code>）。</td></tr>
 <tr><td><code>mqtt</code></td><td>map</td><td>—</td><td>MQTT チャネルインスタンス (<code>[channels.mqtt.&lt;alias&gt;]</code>)。</td></tr>
@@ -730,6 +731,7 @@
 </thead>
 <tbody>
 <tr><td><code>allow_public_bind</code></td><td>ブール値</td><td><code>false</code></td><td>トンネルなしで localhost 以外へのバインディングを許可します（デフォルト: false）</td></tr>
+<tr><td><code>allow_remote_admin</code></td><td>ブール値</td><td><code>false</code></td><td>Allow authenticated remote callers to use admin endpoints that are</td></tr>
 <tr><td><code>host</code></td><td>string</td><td><code>"127.0.0.1"</code></td><td>ゲートウェイホスト（デフォルト: 127.0.0.1）</td></tr>
 <tr><td><code>idempotency_max_keys</code></td><td>整数</td><td><code>10000</code></td><td>メモリに保持される最大の異なるべき等性キー数。</td></tr>
 <tr><td><code>idempotency_ttl_secs</code></td><td>整数</td><td><code>300</code></td><td>webhook べき等性キーの TTL。</td></tr>

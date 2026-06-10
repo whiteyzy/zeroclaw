@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-cdda1b91.js";
+            window.path_to_searchindex_js = "../searchindex-26dd4970.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-0fc3b529.js"></script>
@@ -278,6 +278,16 @@ provider = "tailscale"       # 或 "cloudflare", "ngrok"
 }
 </code></pre>
 <p>网关绑定到 <code>127.0.0.1</code> —— 由代理负责监听。</p>
+<h2 id="remote-daemon-reload"><a class="header" href="#remote-daemon-reload">Remote daemon reload</a></h2>
+<p><code>POST /admin/reload</code> re-reads <code>config.toml</code> and rebuilds every subsystem in place (same PID, sub-second downtime) — the supported way to apply config changes without a full restart. By default it only accepts <strong>loopback</strong> callers, so a remote dashboard or <code>curl</code> from another machine gets <code>403 Forbidden</code>.</p>
+<p>To allow authenticated remote reloads:</p>
+<pre><code class="language-toml">[gateway]
+allow_remote_admin = true    # off by default
+require_pairing = true        # required for remote reload (also the default)
+</code></pre>
+<p>With this enabled, a non-loopback caller may hit <code>/admin/reload</code> <strong>only if it also passes pairing authentication</strong> (<code>Authorization: Bearer &lt;token&gt;</code>). Loopback callers (the local CLI) are always allowed and need no token. <code>/admin/shutdown</code> and the pairing-code endpoints remain localhost-only regardless of this flag.</p>
+<p>Because remote access is enforced through pairing, <code>allow_remote_admin</code> has no effect unless <code>require_pairing</code> is also on: if pairing is disabled, a remote caller cannot be authenticated, so the request is rejected with <code>403 Forbidden</code> rather than allowed anonymously. This makes it impossible to expose an unauthenticated remote reload by flipping a single flag.</p>
+<p><strong>Safety:</strong> leave <code>allow_remote_admin</code> off unless you specifically need to reload from another host. Keep <code>require_pairing = true</code> (the default) so reloads can’t be triggered anonymously.</p>
 <h2 id="树莓派部署"><a class="header" href="#树莓派部署">树莓派部署</a></h2>
 <h3 id="前置条件"><a class="header" href="#前置条件">前置条件</a></h3>
 <ul>

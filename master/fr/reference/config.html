@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-b01be178.js";
+            window.path_to_searchindex_js = "../searchindex-918aafc2.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-a643e72b.js"></script>
@@ -424,6 +424,7 @@
 <tr><td><code>linq</code></td><td>carte</td><td>—</td><td>Instances de canal Linq Partner API (<code>[channels.linq.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>matrice</code></td><td>carte</td><td>—</td><td>Instances de canal Matrix (<code>[channels.matrix.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>mattermost</code></td><td>carte</td><td>—</td><td>Instances de canal de bot Mattermost (<code>[channels.mattermost.&lt;alias&gt;]</code>).</td></tr>
+<tr><td><code>max_concurrent_per_channel</code></td><td>entier</td><td><code>4</code></td><td>Per-channel multiplier for the global channel message in-flight budget.</td></tr>
 <tr><td><code>message_timeout_secs</code></td><td>entier</td><td><code>300</code></td><td>Délai d’attente par défaut en secondes pour le traitement d’un message d’un seul canal (LLM + outils).</td></tr>
 <tr><td><code>mochat</code></td><td>carte</td><td>—</td><td>Instances de canal de service client Mochat (<code>[channels.mochat.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>mqtt</code></td><td>carte</td><td>—</td><td>Instances de canaux MQTT (<code>[channels.mqtt.&lt;alias&gt;]</code>).</td></tr>
@@ -730,6 +731,7 @@
 </thead>
 <tbody>
 <tr><td><code>allow_public_bind</code></td><td>bool</td><td><code>false</code></td><td>Autoriser la liaison à une adresse autre que localhost sans tunnel (par défaut : false)</td></tr>
+<tr><td><code>allow_remote_admin</code></td><td>bool</td><td><code>false</code></td><td>Allow authenticated remote callers to use admin endpoints that are</td></tr>
 <tr><td><code>hôte</code></td><td>chaîne</td><td><code>"127.0.0.1"</code></td><td>Hôte de la passerelle (par défaut : 127.0.0.1)</td></tr>
 <tr><td><code>idempotency_max_keys</code></td><td>entier</td><td><code>10000</code></td><td>Nombre maximum de clés d’idempotence distinctes conservées en mémoire.</td></tr>
 <tr><td><code>idempotency_ttl_secs</code></td><td>entier</td><td><code>300</code></td><td>TTL pour les clés d’idempotence des webhooks.</td></tr>

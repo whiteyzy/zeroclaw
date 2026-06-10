@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-b01be178.js";
+            window.path_to_searchindex_js = "../searchindex-918aafc2.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-a643e72b.js"></script>
@@ -236,6 +236,8 @@
 <p>Exécute <code>cargo audit</code> quotidiennement sur l’arbre des dépendances. Ouvre un ticket en cas de résultats. Aucune action n’est entreprise sauf si une vulnérabilité est signalée.</p>
 <h3 id="étiqueteur-de-chemin-de-pr-pr-path-labeleryml"><a class="header" href="#étiqueteur-de-chemin-de-pr-pr-path-labeleryml">Étiqueteur de chemin de PR (<code>pr-path-labeler.yml</code>)</a></h3>
 <p>Applique automatiquement les étiquettes de portée et de risque en fonction des chemins des fichiers modifiés. S’exécite silencieusement sur chaque PR — si une PR manque d’étiquettes, vérifiez si les chemins dans <code>.github/labeler.yml</code> couvrent les modifications.</p>
+<h3 id="docker-image-pr-check-docker-image-pryml"><a class="header" href="#docker-image-pr-check-docker-image-pryml">Docker Image PR Check (<code>docker-image-pr.yml</code>)</a></h3>
+<p>Runs only when Docker image or release-Docker context files change. It prepares a smoke <code>docker-ctx</code> with the same helper used by the stable release workflow, then builds the default and Debian compatibility images without pushing either image. This catches image dependency and <code>COPY</code> path breakage before release without giving PR runs registry write permission or running on every PR.</p>
 <h3 id="publication-discord-discord-releaseyml"><a class="header" href="#publication-discord-discord-releaseyml">Publication Discord (<code>discord-release.yml</code>)</a></h3>
 <p>Se déclenche après une version stable réussie. Publie les notes de version sur le Discord communautaire.</p>
 <h3 id="publication-de-tweet-tweet-releaseyml"><a class="header" href="#publication-de-tweet-tweet-releaseyml">Publication de tweet (<code>tweet-release.yml</code>)</a></h3>
@@ -317,9 +319,9 @@
 <tr><td><code>dtolnay/rust-toolchain@stable</code></td><td>Tous les workflows</td><td>Installer la chaîne d’outils Rust</td></tr>
 <tr><td><code>Swatinem/rust-cache@v2</code></td><td>Tous les workflows</td><td>Mise en cache de la construction/des dépendances de Cargo</td></tr>
 <tr><td><code>softprops/action-gh-release@v2</code></td><td>version</td><td>Créer des versions GitHub</td></tr>
-<tr><td><code>docker/setup-buildx-action@v3</code></td><td>version</td><td>Configuration de Docker Buildx</td></tr>
+<tr><td><code>docker/setup-buildx-action@v4</code></td><td>version</td><td>Configuration de Docker Buildx</td></tr>
 <tr><td><code>docker/login-action@v3</code></td><td>version</td><td>Authentification GHCR</td></tr>
-<tr><td><code>docker/build-push-action@v6</code></td><td>version</td><td>Construction et envoi d’images multi-plateformes</td></tr>
+<tr><td><code>docker/build-push-action@v7</code></td><td>version</td><td>Construction et envoi d’images multi-plateformes</td></tr>
 </tbody>
 </table>
 </div>
@@ -340,6 +342,7 @@ gh api repos/zeroclaw-labs/zeroclaw/actions/permissions/selected-actions
 <li>Gardez le <code>CI Required Gate</code> déterministe et petit. L’ajout de jobs au gate nécessite un argument de qualité clair.</li>
 <li>Toutes les références d’actions tierces doivent être épinglées à un SHA de commit complet (conformément à la politique de liste d’autorisation ci-dessus).</li>
 <li>Gardez <code>ci.yml</code>, <code>dev/ci.sh</code> et <code>.githooks/pre-push</code> alignés — les mêmes critères de qualité sont exécutés localement et dans CI.</li>
+<li>Keep <code>scripts/ci/prepare_docker_context.sh</code>, <code>docker-image-pr.yml</code>, and the Docker job in <code>release-stable-manual.yml</code> aligned so PR validation exercises the same context shape the release workflow publishes.</li>
 <li>Les vérifications <code>docs-quality</code> ne sont pas dans la porte requise. Exécutez-les localement avec <code>bash scripts/ci/docs_quality_gate.sh</code>.</li>
 </ul>
 <h2 id="retour-arrière-durgence"><a class="header" href="#retour-arrière-durgence">Retour arrière d’urgence</a></h2>

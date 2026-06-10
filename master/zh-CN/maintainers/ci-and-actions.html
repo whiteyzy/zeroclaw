@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-cdda1b91.js";
+            window.path_to_searchindex_js = "../searchindex-26dd4970.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-0fc3b529.js"></script>
@@ -236,6 +236,8 @@
 <p>每晚对依赖树运行 <code>cargo audit</code>。在发现漏洞时创建问题。除非报告了漏洞，否则不采取任何操作。</p>
 <h3 id="pr-路径标签器-pr-path-labeleryml"><a class="header" href="#pr-路径标签器-pr-path-labeleryml">PR 路径标签器 (<code>pr-path-labeler.yml</code>)</a></h3>
 <p>根据更改的文件路径自动应用作用域和风险标签。在每次 PR 中静默运行——如果 PR 缺少标签，请检查 <code>.github/labeler.yml</code> 中的路径是否覆盖了这些更改。</p>
+<h3 id="docker-image-pr-check-docker-image-pryml"><a class="header" href="#docker-image-pr-check-docker-image-pryml">Docker Image PR Check (<code>docker-image-pr.yml</code>)</a></h3>
+<p>Runs only when Docker image or release-Docker context files change. It prepares a smoke <code>docker-ctx</code> with the same helper used by the stable release workflow, then builds the default and Debian compatibility images without pushing either image. This catches image dependency and <code>COPY</code> path breakage before release without giving PR runs registry write permission or running on every PR.</p>
 <h3 id="discord-发布discord-releaseyml"><a class="header" href="#discord-发布discord-releaseyml">Discord 发布（<code>discord-release.yml</code>）</a></h3>
 <p>在稳定版发布成功后触发。将发布说明发布到社区 Discord。</p>
 <h3 id="推文发布-tweet-releaseyml"><a class="header" href="#推文发布-tweet-releaseyml">推文发布 (<code>tweet-release.yml</code>)</a></h3>
@@ -317,9 +319,9 @@
 <tr><td><code>dtolnay/rust-toolchain@stable</code></td><td>所有工作流</td><td>安装 Rust 工具链</td></tr>
 <tr><td><code>Swatinem/rust-cache@v2</code></td><td>所有工作流</td><td>Cargo 构建/依赖缓存</td></tr>
 <tr><td><code>softprops/action-gh-release@v2</code></td><td>发布</td><td>创建 GitHub 发布版本</td></tr>
-<tr><td><code>docker/setup-buildx-action@v3</code></td><td>发布</td><td>Docker Buildx 设置</td></tr>
+<tr><td><code>docker/setup-buildx-action@v4</code></td><td>发布</td><td>Docker Buildx 设置</td></tr>
 <tr><td><code>docker/login-action@v3</code></td><td>发布</td><td>GHCR 身份验证</td></tr>
-<tr><td><code>docker/build-push-action@v6</code></td><td>发布</td><td>多平台镜像构建与推送</td></tr>
+<tr><td><code>docker/build-push-action@v7</code></td><td>发布</td><td>多平台镜像构建与推送</td></tr>
 </tbody>
 </table>
 </div>
@@ -340,6 +342,7 @@ gh api repos/zeroclaw-labs/zeroclaw/actions/permissions/selected-actions
 <li>保持 <code>CI Required Gate</code> 的确定性和简洁性。向该门禁添加作业需要有明确的质量依据。</li>
 <li>所有第三方操作引用必须固定到完整的提交 SHA（根据上述白名单策略）。</li>
 <li>保持 <code>ci.yml</code>、<code>dev/ci.sh</code> 和 <code>.githooks/pre-push</code> 同步——确保本地和 CI 中运行相同的质量检查。</li>
+<li>Keep <code>scripts/ci/prepare_docker_context.sh</code>, <code>docker-image-pr.yml</code>, and the Docker job in <code>release-stable-manual.yml</code> aligned so PR validation exercises the same context shape the release workflow publishes.</li>
 <li><code>docs-quality</code> 检查未包含在必需的门禁中。请通过运行 <code>bash scripts/ci/docs_quality_gate.sh</code> 在本地执行这些检查。</li>
 </ul>
 <h2 id="紧急回滚"><a class="header" href="#紧急回滚">紧急回滚</a></h2>

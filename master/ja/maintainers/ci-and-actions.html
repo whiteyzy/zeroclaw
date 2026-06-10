@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-331be6eb.js";
+            window.path_to_searchindex_js = "../searchindex-1c0d45ef.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-c98164c8.js"></script>
@@ -236,6 +236,8 @@
 <p>依存関係ツリーに対して <code>cargo audit</code> を毎晩実行します。脆弱性が検出された場合は、関連するイシューをオープンします。脆弱性が報告されない限り、何もしません。</p>
 <h3 id="pr-パスラベラー-pr-path-labeleryml"><a class="header" href="#pr-パスラベラー-pr-path-labeleryml">PR パスラベラー (<code>pr-path-labeler.yml</code>)</a></h3>
 <p>変更されたファイルパスに基づいて、スコープとリスクのラベルを自動的に適用します。すべてのPRで静かに実行されます。ラベルが不足しているPRがある場合は、<code>.github/labeler.yml</code>のパスが変更をカバーしているか確認してください。</p>
+<h3 id="docker-image-pr-check-docker-image-pryml"><a class="header" href="#docker-image-pr-check-docker-image-pryml">Docker Image PR Check (<code>docker-image-pr.yml</code>)</a></h3>
+<p>Runs only when Docker image or release-Docker context files change. It prepares a smoke <code>docker-ctx</code> with the same helper used by the stable release workflow, then builds the default and Debian compatibility images without pushing either image. This catches image dependency and <code>COPY</code> path breakage before release without giving PR runs registry write permission or running on every PR.</p>
 <h3 id="discord-リリース-discord-releaseyml"><a class="header" href="#discord-リリース-discord-releaseyml">Discord リリース (<code>discord-release.yml</code>)</a></h3>
 <p>安定版リリースが成功した後に実行されます。リリースノートをコミュニティの Discord に投稿します。</p>
 <h3 id="tweet-リリース-tweet-releaseyml"><a class="header" href="#tweet-リリース-tweet-releaseyml">Tweet リリース (<code>tweet-release.yml</code>)</a></h3>
@@ -317,9 +319,9 @@
 <tr><td><code>dtolnay/rust-toolchain@stable</code></td><td>すべてのワークフロー</td><td>Rust ツールチェーンをインストールする</td></tr>
 <tr><td><code>Swatinem/rust-cache@v2</code></td><td>すべてのワークフロー</td><td>Cargo のビルド/依存関係のキャッシュ</td></tr>
 <tr><td><code>softprops/action-gh-release@v2</code></td><td>リリース</td><td>GitHub リリースを作成する</td></tr>
-<tr><td><code>docker/setup-buildx-action@v3</code></td><td>リリース</td><td>Docker Buildx のセットアップ</td></tr>
+<tr><td><code>docker/setup-buildx-action@v4</code></td><td>リリース</td><td>Docker Buildx のセットアップ</td></tr>
 <tr><td><code>docker/login-action@v3</code></td><td>リリース</td><td>GHCR認証</td></tr>
-<tr><td><code>docker/build-push-action@v6</code></td><td>リリース</td><td>マルチプラットフォームのイメージビルドとプッシュ</td></tr>
+<tr><td><code>docker/build-push-action@v7</code></td><td>リリース</td><td>マルチプラットフォームのイメージビルドとプッシュ</td></tr>
 </tbody>
 </table>
 </div>
@@ -340,6 +342,7 @@ gh api repos/zeroclaw-labs/zeroclaw/actions/permissions/selected-actions
 <li><code>CI Required Gate</code> を決定論的で小さく保つ。ゲートにジョブを追加するには、明確な品質の根拠が必要。</li>
 <li>すべてのサードパーティのアクション参照は、上記の許可リストポリシーに従って完全なコミット SHA に固定する必要があります。</li>
 <li><code>ci.yml</code>、<code>dev/ci.sh</code>、<code>.githooks/pre-push</code> を揃えて、ローカルと CI で同じ品質ゲートが実行されるようにしてください。</li>
+<li>Keep <code>scripts/ci/prepare_docker_context.sh</code>, <code>docker-image-pr.yml</code>, and the Docker job in <code>release-stable-manual.yml</code> aligned so PR validation exercises the same context shape the release workflow publishes.</li>
 <li><code>docs-quality</code> チェックは必須のゲートに含まれていません。<code>bash scripts/ci/docs_quality_gate.sh</code> を使用してローカルで実行してください。</li>
 </ul>
 <h2 id="緊急ロールバック"><a class="header" href="#緊急ロールバック">緊急ロールバック</a></h2>

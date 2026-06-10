@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-cdda1b91.js";
+            window.path_to_searchindex_js = "../searchindex-26dd4970.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-0fc3b529.js"></script>
@@ -424,6 +424,7 @@
 <tr><td><code>linq</code></td><td>映射</td><td>—</td><td>Linq Partner API 渠道实例（<code>[channels.linq.&lt;alias&gt;]</code>）。</td></tr>
 <tr><td><code>矩阵</code></td><td>映射</td><td>—</td><td>矩阵通道实例（<code>[channels.matrix.&lt;alias&gt;]</code>）。</td></tr>
 <tr><td><code>mattermost</code></td><td>映射</td><td>—</td><td>Mattermost 机器人频道实例（<code>[channels.mattermost.&lt;alias&gt;]</code>）。</td></tr>
+<tr><td><code>max_concurrent_per_channel</code></td><td>整数</td><td><code>4</code></td><td>Per-channel multiplier for the global channel message in-flight budget.</td></tr>
 <tr><td><code>message_timeout_secs</code></td><td>整数</td><td><code>300</code></td><td>处理单个通道消息（LLM + 工具）的基础超时时间（秒）。</td></tr>
 <tr><td><code>mochat</code></td><td>映射</td><td>—</td><td>Mochat 客服渠道实例（<code>[channels.mochat.&lt;alias&gt;]</code>）。</td></tr>
 <tr><td><code>mqtt</code></td><td>映射</td><td>—</td><td>MQTT 通道实例（<code>[channels.mqtt.&lt;alias&gt;]</code>）。</td></tr>
@@ -730,6 +731,7 @@
 </thead>
 <tbody>
 <tr><td><code>allow_public_bind</code></td><td>布尔</td><td><code>false</code></td><td>允许绑定到非 localhost 地址而无需隧道（默认值：false）</td></tr>
+<tr><td><code>allow_remote_admin</code></td><td>布尔</td><td><code>false</code></td><td>Allow authenticated remote callers to use admin endpoints that are</td></tr>
 <tr><td><code>host</code></td><td>字符串</td><td><code>"127.0.0.1"</code></td><td>网关主机（默认：127.0.0.1）</td></tr>
 <tr><td><code>idempotency_max_keys</code></td><td>整数</td><td><code>10000</code></td><td>保留在内存中的最大不同幂等性键数量。</td></tr>
 <tr><td><code>idempotency_ttl_secs</code></td><td>整数</td><td><code>300</code></td><td>Webhook 幂等性键的 TTL（生存时间）。</td></tr>

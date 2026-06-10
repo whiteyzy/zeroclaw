@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-183b4c4a.js";
+            window.path_to_searchindex_js = "../searchindex-5650d066.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-acb59c9f.js"></script>
@@ -430,6 +430,7 @@ Access via <code>config.channels.telegram.get("default")</code>.</p>
 <tr><td><code>linq</code></td><td>map</td><td>—</td><td>Linq Partner API channel instances (<code>[channels.linq.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>matrix</code></td><td>map</td><td>—</td><td>Matrix channel instances (<code>[channels.matrix.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>mattermost</code></td><td>map</td><td>—</td><td>Mattermost bot channel instances (<code>[channels.mattermost.&lt;alias&gt;]</code>).</td></tr>
+<tr><td><code>max_concurrent_per_channel</code></td><td>integer</td><td><code>4</code></td><td>Per-channel multiplier for the global channel message in-flight budget.</td></tr>
 <tr><td><code>message_timeout_secs</code></td><td>integer</td><td><code>300</code></td><td>Base timeout in seconds for processing a single channel message (LLM + tools).</td></tr>
 <tr><td><code>mochat</code></td><td>map</td><td>—</td><td>Mochat customer service channel instances (<code>[channels.mochat.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>mqtt</code></td><td>map</td><td>—</td><td>MQTT channel instances (<code>[channels.mqtt.&lt;alias&gt;]</code>).</td></tr>
@@ -771,6 +772,7 @@ provides only file paths; the host reads the bytes.</p>
 </thead>
 <tbody>
 <tr><td><code>allow_public_bind</code></td><td>bool</td><td><code>false</code></td><td>Allow binding to non-localhost without a tunnel (default: false)</td></tr>
+<tr><td><code>allow_remote_admin</code></td><td>bool</td><td><code>false</code></td><td>Allow authenticated remote callers to use admin endpoints that are</td></tr>
 <tr><td><code>host</code></td><td>string</td><td><code>"127.0.0.1"</code></td><td>Gateway host (default: 127.0.0.1)</td></tr>
 <tr><td><code>idempotency_max_keys</code></td><td>integer</td><td><code>10000</code></td><td>Maximum distinct idempotency keys retained in memory.</td></tr>
 <tr><td><code>idempotency_ttl_secs</code></td><td>integer</td><td><code>300</code></td><td>TTL for webhook idempotency keys.</td></tr>

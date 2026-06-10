@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-183b4c4a.js";
+            window.path_to_searchindex_js = "../searchindex-5650d066.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-acb59c9f.js"></script>
@@ -237,6 +237,8 @@ Composite job with multiple matrix legs:</p>
 <p>Runs <code>cargo audit</code> nightly against the dependency tree. Opens an issue on findings. No action unless a vulnerability is reported.</p>
 <h3 id="pr-path-labeler-pr-path-labeleryml"><a class="header" href="#pr-path-labeler-pr-path-labeleryml">PR Path Labeler (<code>pr-path-labeler.yml</code>)</a></h3>
 <p>Auto-applies scope and risk labels based on changed file paths. Runs silently on every PR — if a PR is missing labels, check whether the paths in <code>.github/labeler.yml</code> cover the changes.</p>
+<h3 id="docker-image-pr-check-docker-image-pryml"><a class="header" href="#docker-image-pr-check-docker-image-pryml">Docker Image PR Check (<code>docker-image-pr.yml</code>)</a></h3>
+<p>Runs only when Docker image or release-Docker context files change. It prepares a smoke <code>docker-ctx</code> with the same helper used by the stable release workflow, then builds the default and Debian compatibility images without pushing either image. This catches image dependency and <code>COPY</code> path breakage before release without giving PR runs registry write permission or running on every PR.</p>
 <h3 id="discord-release-discord-releaseyml"><a class="header" href="#discord-release-discord-releaseyml">Discord Release (<code>discord-release.yml</code>)</a></h3>
 <p>Fires after a successful stable release. Posts the release notes to the community Discord.</p>
 <h3 id="tweet-release-tweet-releaseyml"><a class="header" href="#tweet-release-tweet-releaseyml">Tweet Release (<code>tweet-release.yml</code>)</a></h3>
@@ -318,9 +320,9 @@ Composite job with multiple matrix legs:</p>
 <tr><td><code>dtolnay/rust-toolchain@stable</code></td><td>All workflows</td><td>Install Rust toolchain</td></tr>
 <tr><td><code>Swatinem/rust-cache@v2</code></td><td>All workflows</td><td>Cargo build/dependency caching</td></tr>
 <tr><td><code>softprops/action-gh-release@v2</code></td><td>release</td><td>Create GitHub Releases</td></tr>
-<tr><td><code>docker/setup-buildx-action@v3</code></td><td>release</td><td>Docker Buildx setup</td></tr>
+<tr><td><code>docker/setup-buildx-action@v4</code></td><td>release</td><td>Docker Buildx setup</td></tr>
 <tr><td><code>docker/login-action@v3</code></td><td>release</td><td>GHCR authentication</td></tr>
-<tr><td><code>docker/build-push-action@v6</code></td><td>release</td><td>Multi-platform image build and push</td></tr>
+<tr><td><code>docker/build-push-action@v7</code></td><td>release</td><td>Multi-platform image build and push</td></tr>
 </tbody>
 </table>
 </div>
@@ -341,6 +343,7 @@ gh api repos/zeroclaw-labs/zeroclaw/actions/permissions/selected-actions
 <li>Keep <code>CI Required Gate</code> deterministic and small. Adding jobs to the gate needs a clear quality argument.</li>
 <li>All third-party action refs must be pinned to a full commit SHA (per the allowlist policy above).</li>
 <li>Keep <code>ci.yml</code>, <code>dev/ci.sh</code>, and <code>.githooks/pre-push</code> aligned — the same quality gates run locally and in CI.</li>
+<li>Keep <code>scripts/ci/prepare_docker_context.sh</code>, <code>docker-image-pr.yml</code>, and the Docker job in <code>release-stable-manual.yml</code> aligned so PR validation exercises the same context shape the release workflow publishes.</li>
 <li><code>docs-quality</code> checks are not in the required gate. Run them locally with <code>bash scripts/ci/docs_quality_gate.sh</code>.</li>
 </ul>
 <h2 id="emergency-rollback"><a class="header" href="#emergency-rollback">Emergency rollback</a></h2>

@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "searchindex-183b4c4a.js";
+            window.path_to_searchindex_js = "searchindex-5650d066.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-acb59c9f.js"></script>
@@ -4563,6 +4563,7 @@ Access via <code>config.channels.telegram.get("default")</code>.</p>
 <tr><td><code>linq</code></td><td>map</td><td>—</td><td>Linq Partner API channel instances (<code>[channels.linq.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>matrix</code></td><td>map</td><td>—</td><td>Matrix channel instances (<code>[channels.matrix.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>mattermost</code></td><td>map</td><td>—</td><td>Mattermost bot channel instances (<code>[channels.mattermost.&lt;alias&gt;]</code>).</td></tr>
+<tr><td><code>max_concurrent_per_channel</code></td><td>integer</td><td><code>4</code></td><td>Per-channel multiplier for the global channel message in-flight budget.</td></tr>
 <tr><td><code>message_timeout_secs</code></td><td>integer</td><td><code>300</code></td><td>Base timeout in seconds for processing a single channel message (LLM + tools).</td></tr>
 <tr><td><code>mochat</code></td><td>map</td><td>—</td><td>Mochat customer service channel instances (<code>[channels.mochat.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>mqtt</code></td><td>map</td><td>—</td><td>MQTT channel instances (<code>[channels.mqtt.&lt;alias&gt;]</code>).</td></tr>
@@ -4904,6 +4905,7 @@ provides only file paths; the host reads the bytes.</p>
 </thead>
 <tbody>
 <tr><td><code>allow_public_bind</code></td><td>bool</td><td><code>false</code></td><td>Allow binding to non-localhost without a tunnel (default: false)</td></tr>
+<tr><td><code>allow_remote_admin</code></td><td>bool</td><td><code>false</code></td><td>Allow authenticated remote callers to use admin endpoints that are</td></tr>
 <tr><td><code>host</code></td><td>string</td><td><code>"127.0.0.1"</code></td><td>Gateway host (default: 127.0.0.1)</td></tr>
 <tr><td><code>idempotency_max_keys</code></td><td>integer</td><td><code>10000</code></td><td>Maximum distinct idempotency keys retained in memory.</td></tr>
 <tr><td><code>idempotency_ttl_secs</code></td><td>integer</td><td><code>300</code></td><td>TTL for webhook idempotency keys.</td></tr>
@@ -11323,6 +11325,16 @@ provider = "tailscale"       # or "cloudflare", "ngrok"
 }
 </code></pre>
 <p>The gateway stays bound to <code>127.0.0.1</code> — the proxy does the listening.</p>
+<h2 id="remote-daemon-reload"><a class="header" href="#remote-daemon-reload">Remote daemon reload</a></h2>
+<p><code>POST /admin/reload</code> re-reads <code>config.toml</code> and rebuilds every subsystem in place (same PID, sub-second downtime) — the supported way to apply config changes without a full restart. By default it only accepts <strong>loopback</strong> callers, so a remote dashboard or <code>curl</code> from another machine gets <code>403 Forbidden</code>.</p>
+<p>To allow authenticated remote reloads:</p>
+<pre><code class="language-toml">[gateway]
+allow_remote_admin = true    # off by default
+require_pairing = true        # required for remote reload (also the default)
+</code></pre>
+<p>With this enabled, a non-loopback caller may hit <code>/admin/reload</code> <strong>only if it also passes pairing authentication</strong> (<code>Authorization: Bearer &lt;token&gt;</code>). Loopback callers (the local CLI) are always allowed and need no token. <code>/admin/shutdown</code> and the pairing-code endpoints remain localhost-only regardless of this flag.</p>
+<p>Because remote access is enforced through pairing, <code>allow_remote_admin</code> has no effect unless <code>require_pairing</code> is also on: if pairing is disabled, a remote caller cannot be authenticated, so the request is rejected with <code>403 Forbidden</code> rather than allowed anonymously. This makes it impossible to expose an unauthenticated remote reload by flipping a single flag.</p>
+<p><strong>Safety:</strong> leave <code>allow_remote_admin</code> off unless you specifically need to reload from another host. Keep <code>require_pairing = true</code> (the default) so reloads can’t be triggered anonymously.</p>
 <h2 id="raspberry-pi-deployment"><a class="header" href="#raspberry-pi-deployment">Raspberry Pi deployment</a></h2>
 <h3 id="prerequisites-3"><a class="header" href="#prerequisites-3">Prerequisites</a></h3>
 <ul>
@@ -19221,6 +19233,8 @@ Composite job with multiple matrix legs:</p>
 <p>Runs <code>cargo audit</code> nightly against the dependency tree. Opens an issue on findings. No action unless a vulnerability is reported.</p>
 <h3 id="pr-path-labeler-pr-path-labeleryml"><a class="header" href="#pr-path-labeler-pr-path-labeleryml">PR Path Labeler (<code>pr-path-labeler.yml</code>)</a></h3>
 <p>Auto-applies scope and risk labels based on changed file paths. Runs silently on every PR — if a PR is missing labels, check whether the paths in <code>.github/labeler.yml</code> cover the changes.</p>
+<h3 id="docker-image-pr-check-docker-image-pryml"><a class="header" href="#docker-image-pr-check-docker-image-pryml">Docker Image PR Check (<code>docker-image-pr.yml</code>)</a></h3>
+<p>Runs only when Docker image or release-Docker context files change. It prepares a smoke <code>docker-ctx</code> with the same helper used by the stable release workflow, then builds the default and Debian compatibility images without pushing either image. This catches image dependency and <code>COPY</code> path breakage before release without giving PR runs registry write permission or running on every PR.</p>
 <h3 id="discord-release-discord-releaseyml"><a class="header" href="#discord-release-discord-releaseyml">Discord Release (<code>discord-release.yml</code>)</a></h3>
 <p>Fires after a successful stable release. Posts the release notes to the community Discord.</p>
 <h3 id="tweet-release-tweet-releaseyml"><a class="header" href="#tweet-release-tweet-releaseyml">Tweet Release (<code>tweet-release.yml</code>)</a></h3>
@@ -19302,9 +19316,9 @@ Composite job with multiple matrix legs:</p>
 <tr><td><code>dtolnay/rust-toolchain@stable</code></td><td>All workflows</td><td>Install Rust toolchain</td></tr>
 <tr><td><code>Swatinem/rust-cache@v2</code></td><td>All workflows</td><td>Cargo build/dependency caching</td></tr>
 <tr><td><code>softprops/action-gh-release@v2</code></td><td>release</td><td>Create GitHub Releases</td></tr>
-<tr><td><code>docker/setup-buildx-action@v3</code></td><td>release</td><td>Docker Buildx setup</td></tr>
+<tr><td><code>docker/setup-buildx-action@v4</code></td><td>release</td><td>Docker Buildx setup</td></tr>
 <tr><td><code>docker/login-action@v3</code></td><td>release</td><td>GHCR authentication</td></tr>
-<tr><td><code>docker/build-push-action@v6</code></td><td>release</td><td>Multi-platform image build and push</td></tr>
+<tr><td><code>docker/build-push-action@v7</code></td><td>release</td><td>Multi-platform image build and push</td></tr>
 </tbody>
 </table>
 </div>
@@ -19325,6 +19339,7 @@ gh api repos/zeroclaw-labs/zeroclaw/actions/permissions/selected-actions
 <li>Keep <code>CI Required Gate</code> deterministic and small. Adding jobs to the gate needs a clear quality argument.</li>
 <li>All third-party action refs must be pinned to a full commit SHA (per the allowlist policy above).</li>
 <li>Keep <code>ci.yml</code>, <code>dev/ci.sh</code>, and <code>.githooks/pre-push</code> aligned — the same quality gates run locally and in CI.</li>
+<li>Keep <code>scripts/ci/prepare_docker_context.sh</code>, <code>docker-image-pr.yml</code>, and the Docker job in <code>release-stable-manual.yml</code> aligned so PR validation exercises the same context shape the release workflow publishes.</li>
 <li><code>docs-quality</code> checks are not in the required gate. Run them locally with <code>bash scripts/ci/docs_quality_gate.sh</code>.</li>
 </ul>
 <h2 id="emergency-rollback"><a class="header" href="#emergency-rollback">Emergency rollback</a></h2>

@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "searchindex-11c8edb4.js";
+            window.path_to_searchindex_js = "searchindex-7f0f8b7c.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-2e5901bf.js"></script>
@@ -4287,6 +4287,7 @@ zeroclaw daemon
 <tr><td><code>linq</code></td><td>mapa</td><td>—</td><td>Instancias de canal de la API Linq Partner (<code>[channels.linq.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>matrix</code></td><td>mapa</td><td>—</td><td>Instancias de canal Matrix (<code>[channels.matrix.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>mattermost</code></td><td>mapa</td><td>—</td><td>Instancias de canal de bot de Mattermost (<code>[channels.mattermost.&lt;alias&gt;]</code>).</td></tr>
+<tr><td><code>max_concurrent_per_channel</code></td><td>entero</td><td><code>4</code></td><td>Per-channel multiplier for the global channel message in-flight budget.</td></tr>
 <tr><td><code>message_timeout_secs</code></td><td>entero</td><td><code>300</code></td><td>Tiempo de espera base en segundos para procesar un mensaje de un solo canal (LLM + herramientas).</td></tr>
 <tr><td><code>mochat</code></td><td>mapa</td><td>—</td><td>Instancias del canal de atención al cliente de Mochat (<code>[channels.mochat.&lt;alias&gt;]</code>).</td></tr>
 <tr><td><code>mqtt</code></td><td>mapa</td><td>—</td><td>Instancias de canal MQTT (<code>[channels.mqtt.&lt;alias&gt;]</code>).</td></tr>
@@ -4593,6 +4594,7 @@ zeroclaw daemon
 </thead>
 <tbody>
 <tr><td><code>allow_public_bind</code></td><td>bool</td><td><code>false</code></td><td>Permitir la vinculación a direcciones que no sean localhost sin un túnel (predeterminado: false)</td></tr>
+<tr><td><code>allow_remote_admin</code></td><td>bool</td><td><code>false</code></td><td>Allow authenticated remote callers to use admin endpoints that are</td></tr>
 <tr><td><code>host</code></td><td>cadena</td><td><code>"127.0.0.1"</code></td><td>Host del gateway (predeterminado: 127.0.0.1)</td></tr>
 <tr><td><code>idempotency_max_keys</code></td><td>entero</td><td><code>10000</code></td><td>Claves de idempotencia distintas máximas retenidas en memoria.</td></tr>
 <tr><td><code>idempotency_ttl_secs</code></td><td>entero</td><td><code>300</code></td><td>TTL para las claves de idempotencia de los webhooks.</td></tr>
@@ -10615,6 +10617,16 @@ provider = "tailscale"       # o "cloudflare", "ngrok"
 }
 </code></pre>
 <p>La puerta de enlace permanece vinculada a <code>127.0.0.1</code> — el proxy se encarga de la escucha.</p>
+<h2 id="remote-daemon-reload"><a class="header" href="#remote-daemon-reload">Remote daemon reload</a></h2>
+<p><code>POST /admin/reload</code> re-reads <code>config.toml</code> and rebuilds every subsystem in place (same PID, sub-second downtime) — the supported way to apply config changes without a full restart. By default it only accepts <strong>loopback</strong> callers, so a remote dashboard or <code>curl</code> from another machine gets <code>403 Forbidden</code>.</p>
+<p>To allow authenticated remote reloads:</p>
+<pre><code class="language-toml">[gateway]
+allow_remote_admin = true    # off by default
+require_pairing = true        # required for remote reload (also the default)
+</code></pre>
+<p>With this enabled, a non-loopback caller may hit <code>/admin/reload</code> <strong>only if it also passes pairing authentication</strong> (<code>Authorization: Bearer &lt;token&gt;</code>). Loopback callers (the local CLI) are always allowed and need no token. <code>/admin/shutdown</code> and the pairing-code endpoints remain localhost-only regardless of this flag.</p>
+<p>Because remote access is enforced through pairing, <code>allow_remote_admin</code> has no effect unless <code>require_pairing</code> is also on: if pairing is disabled, a remote caller cannot be authenticated, so the request is rejected with <code>403 Forbidden</code> rather than allowed anonymously. This makes it impossible to expose an unauthenticated remote reload by flipping a single flag.</p>
+<p><strong>Safety:</strong> leave <code>allow_remote_admin</code> off unless you specifically need to reload from another host. Keep <code>require_pairing = true</code> (the default) so reloads can’t be triggered anonymously.</p>
 <h2 id="despliegue-en-raspberry-pi"><a class="header" href="#despliegue-en-raspberry-pi">Despliegue en Raspberry Pi</a></h2>
 <h3 id="requisitos-previos-3"><a class="header" href="#requisitos-previos-3">Requisitos previos</a></h3>
 <ul>
@@ -17788,6 +17800,8 @@ label = "Nombre del idioma"
 <p>Ejecuta <code>cargo audit</code> todas las noches contra el árbol de dependencias. Abre un problema en caso de hallazgos. No realiza ninguna acción a menos que se informe de una vulnerabilidad.</p>
 <h3 id="etiquetador-de-rutas-de-pr-pr-path-labeleryml"><a class="header" href="#etiquetador-de-rutas-de-pr-pr-path-labeleryml">Etiquetador de rutas de PR (<code>pr-path-labeler.yml</code>)</a></h3>
 <p>Aplica automáticamente etiquetas de alcance y riesgo basadas en las rutas de los archivos modificados. Se ejecuta silenciosamente en cada PR; si un PR carece de etiquetas, verifica si las rutas en <code>.github/labeler.yml</code> cubren los cambios.</p>
+<h3 id="docker-image-pr-check-docker-image-pryml"><a class="header" href="#docker-image-pr-check-docker-image-pryml">Docker Image PR Check (<code>docker-image-pr.yml</code>)</a></h3>
+<p>Runs only when Docker image or release-Docker context files change. It prepares a smoke <code>docker-ctx</code> with the same helper used by the stable release workflow, then builds the default and Debian compatibility images without pushing either image. This catches image dependency and <code>COPY</code> path breakage before release without giving PR runs registry write permission or running on every PR.</p>
 <h3 id="lanzamiento-de-discord-discord-releaseyml"><a class="header" href="#lanzamiento-de-discord-discord-releaseyml">Lanzamiento de Discord (<code>discord-release.yml</code>)</a></h3>
 <p>Se ejecuta después de una versión estable exitosa. Publica las notas de la versión en el Discord de la comunidad.</p>
 <h3 id="lanzamiento-de-tweet-tweet-releaseyml"><a class="header" href="#lanzamiento-de-tweet-tweet-releaseyml">Lanzamiento de Tweet (<code>tweet-release.yml</code>)</a></h3>
@@ -17869,9 +17883,9 @@ label = "Nombre del idioma"
 <tr><td><code>dtolnay/rust-toolchain@stable</code></td><td>Todos los flujos de trabajo</td><td>Instalar la cadena de herramientas de Rust</td></tr>
 <tr><td><code>Swatinem/rust-cache@v2</code></td><td>Todos los flujos de trabajo</td><td>Caché de compilación y dependencias de Cargo</td></tr>
 <tr><td><code>softprops/action-gh-release@v2</code></td><td>lanzamiento</td><td>Crear lanzamientos de GitHub</td></tr>
-<tr><td><code>docker/setup-buildx-action@v3</code></td><td>lanzamiento</td><td>Configuración de Docker Buildx</td></tr>
+<tr><td><code>docker/setup-buildx-action@v4</code></td><td>lanzamiento</td><td>Configuración de Docker Buildx</td></tr>
 <tr><td><code>docker/login-action@v3</code></td><td>lanzamiento</td><td>Autenticación de GHCR</td></tr>
-<tr><td><code>docker/build-push-action@v6</code></td><td>lanzamiento</td><td>Construcción y envío de imágenes multiplataforma</td></tr>
+<tr><td><code>docker/build-push-action@v7</code></td><td>lanzamiento</td><td>Construcción y envío de imágenes multiplataforma</td></tr>
 </tbody>
 </table>
 </div>
@@ -17892,6 +17906,7 @@ gh api repos/zeroclaw-labs/zeroclaw/actions/permissions/selected-actions
 <li>Mantén el <code>CI Required Gate</code> determinista y pequeño. Agregar trabajos al gate requiere un argumento de calidad claro.</li>
 <li>Todas las referencias de acciones de terceros deben estar fijadas a un SHA de commit completo (según la política de lista de permitidos anterior).</li>
 <li>Mantén <code>ci.yml</code>, <code>dev/ci.sh</code> y <code>.githooks/pre-push</code> alineados — los mismos controles de calidad se ejecutan localmente y en CI.</li>
+<li>Keep <code>scripts/ci/prepare_docker_context.sh</code>, <code>docker-image-pr.yml</code>, and the Docker job in <code>release-stable-manual.yml</code> aligned so PR validation exercises the same context shape the release workflow publishes.</li>
 <li>Las comprobaciones de <code>docs-quality</code> no están en la puerta de control requerida. Ejecútalas localmente con <code>bash scripts/ci/docs_quality_gate.sh</code>.</li>
 </ul>
 <h2 id="reversión-de-emergencia"><a class="header" href="#reversión-de-emergencia">Reversión de emergencia</a></h2>
