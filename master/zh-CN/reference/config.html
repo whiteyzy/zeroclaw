@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-c78ee4ec.js";
+            window.path_to_searchindex_js = "../searchindex-c212b8b0.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-0fc3b529.js"></script>
@@ -1817,7 +1817,7 @@ api_key = "..."
 <tr><td><code>cache_valid_secs</code></td><td>整数</td><td><code>300</code></td><td>重用窗口以保存最近验证的 OTP 代码。</td></tr>
 <tr><td><code>challenge_max_attempts</code></td><td>整数</td><td><code>3</code></td><td>在锁定之前，OTP 挑战尝试的最大次数。</td></tr>
 <tr><td><code>enabled</code></td><td>布尔</td><td><code>false</code></td><td>启用 OTP 门控。默认情况下为禁用，以保持向后兼容性。</td></tr>
-<tr><td><code>gated_actions</code></td><td>字符串数组</td><td><code>["shell","file_write","browser_open","browser","memory_forget"]</code></td><td>受 OTP 限制的工具/操作名称。</td></tr>
+<tr><td><code>gated_actions</code></td><td>字符串数组</td><td><code>["shell","file_write","browser_open","browser","memory_forget"]</code></td><td>Tool/action names gated by OTP. Empty or malformed entries are rejected</td></tr>
 <tr><td><code>gated_domain_categories</code></td><td>字符串数组</td><td><code>[]</code></td><td>域类别预设已扩展为 <code>gated_domains</code>。</td></tr>
 <tr><td><code>gated_domains</code></td><td>字符串数组</td><td><code>[]</code></td><td>通过 OTP 限制的显式域模式。</td></tr>
 <tr><td><code>method</code></td><td>任何</td><td>—</td><td>OTP 验证策略。</td></tr>

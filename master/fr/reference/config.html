@@ -37,7 +37,7 @@
             const path_to_root = "../";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "../searchindex-e78b1842.js";
+            window.path_to_searchindex_js = "../searchindex-4a422334.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-a643e72b.js"></script>
@@ -1817,7 +1817,7 @@ api_key = "..."
 <tr><td><code>cache_valid_secs</code></td><td>entier</td><td><code>300</code></td><td>Réutiliser la fenêtre pour les codes OTP récemment validés.</td></tr>
 <tr><td><code>challenge_max_attempts</code></td><td>entier</td><td><code>3</code></td><td>Nombre maximum de tentatives de défi OTP avant le verrouillage.</td></tr>
 <tr><td><code>activé</code></td><td>bool</td><td><code>false</code></td><td>Activer le filtrage par OTP. La valeur par défaut est désactivée pour assurer la compatibilité avec les versions antérieures.</td></tr>
-<tr><td><code>gated_actions</code></td><td>string[]</td><td><code>["shell","file_write","browser_open","browser","memory_forget"]</code></td><td>Noms d’outils/actions soumis à l’OTP.</td></tr>
+<tr><td><code>gated_actions</code></td><td>string[]</td><td><code>["shell","file_write","browser_open","browser","memory_forget"]</code></td><td>Tool/action names gated by OTP. Empty or malformed entries are rejected</td></tr>
 <tr><td><code>gated_domain_categories</code></td><td>string[]</td><td><code>[]</code></td><td>Les catégories de domaine prédéfinies ont été étendues dans <code>gated_domains</code>.</td></tr>
 <tr><td><code>gated_domains</code></td><td>string[]</td><td><code>[]</code></td><td><strong>Modèles de domaine explicites verrouillés par OTP.</strong></td></tr>
 <tr><td><code>méthode</code></td><td>aucun</td><td>—</td><td>Stratégie de validation OTP.</td></tr>

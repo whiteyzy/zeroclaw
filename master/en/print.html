@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "default-dark";
             const default_dark_theme = "default-dark";
-            window.path_to_searchindex_js = "searchindex-2255d7da.js";
+            window.path_to_searchindex_js = "searchindex-966a2885.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-acb59c9f.js"></script>
@@ -6073,7 +6073,7 @@ Security Suite instance and maps Nevis roles to tool/workspace permissions.</p>
 <tr><td><code>cache_valid_secs</code></td><td>integer</td><td><code>300</code></td><td>Reuse window for recently validated OTP codes.</td></tr>
 <tr><td><code>challenge_max_attempts</code></td><td>integer</td><td><code>3</code></td><td>Maximum number of OTP challenge attempts before lockout.</td></tr>
 <tr><td><code>enabled</code></td><td>bool</td><td><code>false</code></td><td>Enable OTP gating. Defaults to disabled for backward compatibility.</td></tr>
-<tr><td><code>gated_actions</code></td><td>string[]</td><td><code>["shell","file_write","browser_open","browser","memory_forget"]</code></td><td>Tool/action names gated by OTP.</td></tr>
+<tr><td><code>gated_actions</code></td><td>string[]</td><td><code>["shell","file_write","browser_open","browser","memory_forget"]</code></td><td>Tool/action names gated by OTP. Empty or malformed entries are rejected</td></tr>
 <tr><td><code>gated_domain_categories</code></td><td>string[]</td><td><code>[]</code></td><td>Domain-category presets expanded into <code>gated_domains</code>.</td></tr>
 <tr><td><code>gated_domains</code></td><td>string[]</td><td><code>[]</code></td><td>Explicit domain patterns gated by OTP.</td></tr>
 <tr><td><code>method</code></td><td>any</td><td>—</td><td>OTP validation strategy.</td></tr>
