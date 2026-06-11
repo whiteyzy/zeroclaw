@@ -32,12 +32,12 @@ Resolves through <code>model_providers.&lt;type&gt;.&lt;alias&gt;</code> at runt
 </div><span id="structfield.skill_bundles" class="structfield section-header"><a href="#structfield.skill_bundles" class="anchor field">§</a><code>skill_bundles: <a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span><div class="docblock"><p>Skill bundle aliases. Each entry resolves to
 <code>skill_bundles[key].directory</code> at runtime; the agent loads every
 listed bundle.</p>
-</div><span id="structfield.knowledge_bundles" class="structfield section-header"><a href="#structfield.knowledge_bundles" class="anchor field">§</a><code>knowledge_bundles: <a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span><div class="docblock"><p>Knowledge bundle aliases. Additive — the agent loads every listed
+</div><span id="structfield.knowledge_bundles" class="structfield section-header"><a href="#structfield.knowledge_bundles" class="anchor field">§</a><code>knowledge_bundles: <a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span><div class="docblock"><p>Knowledge bundle aliases. Additive: the agent loads every listed
 bundle.</p>
 </div><span id="structfield.mcp_bundles" class="structfield section-header"><a href="#structfield.mcp_bundles" class="anchor field">§</a><code>mcp_bundles: <a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span><div class="docblock"><p>MCP bundle aliases. Each entry references <code>mcp_bundles[key]</code>,
 itself a named group of MCP servers; agents pick which bundles to
 load.</p>
-</div><span id="structfield.cron_jobs" class="structfield section-header"><a href="#structfield.cron_jobs" class="anchor field">§</a><code>cron_jobs: <a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span><div class="docblock"><p>Cron job aliases. Each entry references <code>cron[key]</code> — a declarative
+</div><span id="structfield.cron_jobs" class="structfield section-header"><a href="#structfield.cron_jobs" class="anchor field">§</a><code>cron_jobs: <a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span><div class="docblock"><p>Cron job aliases. Each entry references <code>cron[key]</code>, a declarative
 scheduled job invoked by the scheduler on its configured trigger.
 When the cron fires, this agent is the actor that executes the job.</p>
 </div><span id="structfield.tts_provider" class="structfield section-header"><a href="#structfield.tts_provider" class="anchor field">§</a><code>tts_provider: <a class="struct" href="../providers/struct.TtsProviderRef.html" title="struct zeroclaw::config::providers::TtsProviderRef">TtsProviderRef</a></code></span><div class="docblock"><p>TTS provider as a dotted alias reference (<code>&lt;type&gt;.&lt;alias&gt;</code>,
@@ -58,7 +58,7 @@ classification call to <code>[providers.models.&lt;type&gt;.&lt;alias&gt;]</code
 here, instead of reusing the main agent’s <code>model_provider</code>.</p>
 <p>Source of truth for api_key / uri / model / temperature etc. is the
 referenced <code>[providers.models.&lt;type&gt;.&lt;alias&gt;]</code> entry. This field is
-a reference only (NEVER a copy) — per AGENTS.md SINGLE SOURCE OF TRUTH.</p>
+a reference only (NEVER a copy), per AGENTS.md SINGLE SOURCE OF TRUTH.</p>
 <p>Empty (<code>Default</code>) = inherit the main agent’s resolved provider+model
 (preserves pre-PR behavior; backward compatible).</p>
 <p>Use case: classification is a cheap REPLY/NO_REPLY decision, doesn’t
@@ -69,7 +69,7 @@ expensive answering model (e.g. <code>qwen3.6-plus</code>).</p>
 must be written as <code>[providers.models.custom.kimi-k2-5]</code>. The
 underlying <code>model = "kimi-k2.5"</code> string can still contain dots.</p>
 <p>ACP channels (IDE-direct) always reply and skip the classifier
-entirely — this field has no effect on ACP traffic.</p>
+entirely, so this field has no effect on ACP traffic.</p>
 </div><span id="structfield.resolved" class="structfield section-header"><a href="#structfield.resolved" class="anchor field">§</a><code>resolved: <a class="struct" href="struct.ResolvedRuntime.html" title="struct zeroclaw::config::schema::ResolvedRuntime">ResolvedRuntime</a></code></span><span id="structfield.workspace" class="structfield section-header"><a href="#structfield.workspace" class="anchor field">§</a><code>workspace: <a class="struct" href="../../../zeroclaw_config/multi_agent/struct.AgentWorkspaceConfig.html" title="struct zeroclaw_config::multi_agent::AgentWorkspaceConfig">AgentWorkspaceConfig</a></code></span><div class="docblock"><p>Per-agent workspace block (<code>[agents.&lt;alias&gt;.workspace]</code>).
 Holds the agent’s filesystem path, cross-agent access allowlist,
 filesystem-escape boolean, and cross-agent memory allowlist.
