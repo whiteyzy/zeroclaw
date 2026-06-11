@@ -2260,7 +2260,7 @@ data-theme="ayu"></script><meta name="rustdoc-vars" data-root-path="../../../" d
 <a href=#2258 id=2258 data-nosnippet>2258</a>            .prop_fields()
 <a href=#2259 id=2259 data-nosnippet>2259</a>            .into_iter()
 <a href=#2260 id=2260 data-nosnippet>2260</a>            .filter(|info| <span class="kw">match </span>prefix {
-<a href=#2261 id=2261 data-nosnippet>2261</a>                <span class="prelude-val">Some</span>(p) =&gt; info.name.starts_with(p),
+<a href=#2261 id=2261 data-nosnippet>2261</a>                <span class="prelude-val">Some</span>(p) =&gt; field_visibility::path_matches_prefix(<span class="kw-2">&amp;</span>info.name, p),
 <a href=#2262 id=2262 data-nosnippet>2262</a>                <span class="prelude-val">None </span>=&gt; <span class="bool-val">true</span>,
 <a href=#2263 id=2263 data-nosnippet>2263</a>            })
 <a href=#2264 id=2264 data-nosnippet>2264</a>            .filter(|info| !field_visibility::is_excluded(<span class="kw-2">&amp;</span>info.name, <span class="kw-2">&amp;</span>excluded))
