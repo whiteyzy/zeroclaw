@@ -3523,7 +3523,7 @@ data-theme="ayu"></script><meta name="rustdoc-vars" data-root-path="../../../" d
 <a href=#3521 id=3521 data-nosnippet>3521</a>            <span class="prelude-val">Some</span>(m) =&gt; m.to_string(),
 <a href=#3522 id=3522 data-nosnippet>3522</a>            <span class="prelude-val">None </span>=&gt; <span class="macro">anyhow::bail!</span>(
 <a href=#3523 id=3523 data-nosnippet>3523</a>                <span class="string">"no model configured for agent {agent_alias}: \
-<a href=#3524 id=3524 data-nosnippet>3524</a>             [model_providers.{provider_name}.&lt;alias&gt;].model is unset and --model was not passed"
+<a href=#3524 id=3524 data-nosnippet>3524</a>             [providers.models.{provider_name}.&lt;alias&gt;].model is unset and --model was not passed"
 <a href=#3525 id=3525 data-nosnippet>3525</a>            </span>),
 <a href=#3526 id=3526 data-nosnippet>3526</a>        };
 <a href=#3527 id=3527 data-nosnippet>3527</a>
@@ -4675,7 +4675,7 @@ data-theme="ayu"></script><meta name="rustdoc-vars" data-root-path="../../../" d
 <a href=#4673 id=4673 data-nosnippet>4673</a>                <span class="kw">if </span>!agent_ref.is_empty() {
 <a href=#4674 id=4674 data-nosnippet>4674</a>                    <span class="macro">anyhow::bail!</span>(
 <a href=#4675 id=4675 data-nosnippet>4675</a>                        <span class="string">"agents.{agent_alias}.model_provider = \"{agent_ref}\" does not resolve to \
-<a href=#4676 id=4676 data-nosnippet>4676</a>                     a configured [model_providers.&lt;type&gt;.&lt;alias&gt;] entry"
+<a href=#4676 id=4676 data-nosnippet>4676</a>                     a configured [providers.models.&lt;type&gt;.&lt;alias&gt;] entry"
 <a href=#4677 id=4677 data-nosnippet>4677</a>                    </span>);
 <a href=#4678 id=4678 data-nosnippet>4678</a>                }
 <a href=#4679 id=4679 data-nosnippet>4679</a>                <span class="macro">anyhow::bail!</span>(
@@ -4875,7 +4875,7 @@ data-theme="ayu"></script><meta name="rustdoc-vars" data-root-path="../../../" d
 <a href=#4873 id=4873 data-nosnippet>4873</a>            <span class="prelude-val">Some</span>(m) =&gt; m.to_string(),
 <a href=#4874 id=4874 data-nosnippet>4874</a>            <span class="prelude-val">None </span>=&gt; <span class="macro">anyhow::bail!</span>(
 <a href=#4875 id=4875 data-nosnippet>4875</a>                <span class="string">"agents.{agent_alias}.model_provider resolves to a model_provider entry with no \
-<a href=#4876 id=4876 data-nosnippet>4876</a>             `model` set. Configure [model_providers.{provider_name}.&lt;alias&gt;] model = \"...\"."
+<a href=#4876 id=4876 data-nosnippet>4876</a>             `model` set. Configure [providers.models.{provider_name}.&lt;alias&gt;] model = \"...\"."
 <a href=#4877 id=4877 data-nosnippet>4877</a>            </span>),
 <a href=#4878 id=4878 data-nosnippet>4878</a>        };
 <a href=#4879 id=4879 data-nosnippet>4879</a>        <span class="kw">let </span>provider_runtime_options = zeroclaw_providers::provider_runtime_options_for_alias(
